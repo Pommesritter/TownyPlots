@@ -1,0 +1,20 @@
+name: "TownyPlots"
+version: 0.3
+description: New dynamic plot types for Towny
+website: dev.bukkit.org
+author: Kleinerminer
+main: me.kleinerminer.townyplots.TownyPlots
+depend: [Towny]
+
+commands:
+  plottype:
+    description: 'Set current plot type'
+    usage: /<command>
+    permission: townyplots.set
+    permission-message: 'No permission.'
+  building:
+    aliases: [b]
+    description: 'Manage lumberhut'
+    usage: /<command>
+    permission: townyplots.building
+    permission-message: 'No permission.'
