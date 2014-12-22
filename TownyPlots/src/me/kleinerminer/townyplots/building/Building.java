@@ -3,6 +3,7 @@ package me.kleinerminer.townyplots.building;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 
 import com.palmergames.bukkit.towny.object.Town;
 
@@ -37,7 +38,7 @@ public abstract class Building {
 	public abstract World getWorld();
 	public abstract int getId();
 	public abstract int getLevel();
-	public abstract Location getInfoSign();
+	public abstract Sign getInfoSign();
 	public abstract Location[] getOutputChests();
 	
 	public abstract void setX(int x);
@@ -50,7 +51,7 @@ public abstract class Building {
 	public abstract void setTown(Town town);
 	public abstract void setWorld(World world);
 	public abstract void setId(int id);
-	public abstract void setInfoSign(Location loc);
+	public abstract void setInfoSign(Sign sign);
 	public abstract void setOutputChests(int index, Location loc);
 	public abstract void setOutputChests(Location[] outputChests);
 	

@@ -4,7 +4,6 @@ package me.kleinerminer.townyplots.threads;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
 import org.bukkit.inventory.ItemStack;
 
 import me.kleinerminer.townyplots.TownyPlots;
@@ -22,16 +21,7 @@ public class LumberhutWork extends Thread {
 	public void run() {
 		while(true) {
 		lumberhut.refreshLevel();
-		if(lumberhut.getInfoSign() != null && lumberhut.getInfoSign().getBlock().getType() == Material.SIGN) {
-			plugin.getLogger().info("SCHNITZEL SCHNITZEL"); //TODO remove
-			Sign sign = (Sign) lumberhut.getInfoSign().getBlock().getState();
-			sign.setLine(0, plugin.config.getString("lang.lumberhut")); //Line 1 is the plot type
-			sign.setLine(1, "ID: " + lumberhut.getId()); //Line 2 is the id
-			sign.setLine(2, "Level: " + lumberhut.getLevel()); //Line 3 is the level
-			sign.setLine(2, "1 : " + plugin.config.getString("lang.blocks")+"/"+ (plugin.config.getInt("lumberhut.basicProducingTime") - (lumberhut.getLevel() * 
-					plugin.config.getDouble("lumberhut.producingTimeLevelStep"))) +
-					plugin.config.getString("lang.seconds")); //Line 4 is the BlockCount/Seconds
-		}
+		plugin.buildinghandler.refreshSign(lumberhut.getInfoSign(), lumberhut);
 		if(lumberhut.getLevel() != 0) //No producing on lv0
 		if(!(productionCounter < plugin.config.getInt("lumberhut.basicProducingTime") - (lumberhut.getLevel() * 
 				plugin.config.getDouble("lumberhut.producingTimeLevelStep")))) { //x Sec per wood on lv0 minus x sec per level

@@ -3,6 +3,7 @@ package me.kleinerminer.townyplots.handlers;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 
 import com.palmergames.bukkit.towny.object.Town;
 
@@ -61,6 +62,18 @@ public class BuildingHandler {
 			i++;
 		}
 		return townBuildings;
+	}
+	public void refreshSign(Sign sign, Building b) {
+		if(sign != null) {
+			sign.setLine(0, plugin.config.getString("lang.lumberhut")); //Line 1 is the plot type
+			sign.setLine(1, "ID: " + b.getId()); //Line 2 is the id
+			sign.setLine(2, "Level: " + b.getLevel()); //Line 3 is the level
+			sign.setLine(3, "1 : " + plugin.config.getString("lang.blocks")+"/"+ (plugin.config.getInt("lumberhut.basicProducingTime") - (b.getLevel() * 
+					plugin.config.getDouble("lumberhut.producingTimeLevelStep"))) +
+					plugin.config.getString("lang.seconds")); //Line 4 is the BlockCount/Seconds
+			b.setInfoSign(sign);
+			b.getInfoSign().update();
+		}
 	}
 	//Returns the level of the road connecting two buildings. 0 = No road, 1 = Gravel road, 2 = Cobblestone road
 	public int roadConnectionLevel(Building b1, Building b2) {

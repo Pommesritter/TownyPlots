@@ -8,6 +8,7 @@ import me.kleinerminer.townyplots.TownyPlots;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.palmergames.bukkit.towny.object.Town;
@@ -21,7 +22,7 @@ public class Lumberhut extends Building {
 	int y2;
 	int blockAmount; //Basic block count for level 1
 	int blockAmountLevel; //Block count per level up
-	Location infoSign;
+	Sign infoSign;
 	Town town;
 	String type = "lumberhut";
 	// World world;
@@ -236,11 +237,11 @@ public class Lumberhut extends Building {
 		this.y = y;
 	}
 	@Override
-	public Location getInfoSign() {
+	public Sign getInfoSign() {
 		return infoSign;
 	}
 	@Override
-	public void setInfoSign(Location loc) {
-		infoSign = loc;
+	public void setInfoSign(Sign sign) {
+		infoSign = sign;
 	}
 }

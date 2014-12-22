@@ -5,6 +5,7 @@ import me.kleinerminer.townyplots.building.Building;
 import me.kleinerminer.townyplots.handlers.BuildingHandler;
 
 import org.bukkit.Location;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,9 +26,10 @@ public class SignChangeListener implements Listener {
 				!bhandler.getBuilding(loc).getTown().getMayor().getName().equals(player.getName())) return;
 		Building b = bhandler.getBuilding(loc);
 		if(event.getLine(1).equals("[binfo]")) {
-			plugin.getLogger().info("SCHNITZEL 4"); //TODO
-			b.setInfoSign(loc);
+			Sign sign = (Sign) event.getBlock().getState();
+			b.setInfoSign(sign);
 		}
+		//TODO: Register all kinds of signs, setting signs, chest signs etc.
 	
 	}
 }

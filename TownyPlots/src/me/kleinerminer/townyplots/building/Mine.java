@@ -7,6 +7,7 @@ import me.kleinerminer.townyplots.TownyPlots;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 
 import com.palmergames.bukkit.towny.object.Town;
 
@@ -20,7 +21,7 @@ public class Mine extends Building {
 	int size;
 	Town town;
 	World world;
-	Location infoSign;
+	Sign infoSign;
 	int id;
 	String type = "mine";
 	// World world;
@@ -174,11 +175,11 @@ public class Mine extends Building {
 		this.y = y;
 	}
 	@Override
-	public Location getInfoSign() {
+	public Sign getInfoSign() {
 		return infoSign;
 	}
 	@Override
-	public void setInfoSign(Location loc) {
-		infoSign = loc;
+	public void setInfoSign(Sign sign) {
+		infoSign = sign;
 	}
 }
