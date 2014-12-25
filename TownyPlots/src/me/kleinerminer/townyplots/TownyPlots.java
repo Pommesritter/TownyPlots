@@ -2,9 +2,10 @@ package me.kleinerminer.townyplots;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import me.kleinerminer.townyplots.listeners.BlockBreakListener;
-import me.kleinerminer.townyplots.listeners.BlockPlaceListener;
 import me.kleinerminer.townyplots.listeners.ClickListener;
 import me.kleinerminer.townyplots.listeners.SignChangeListener;
 import me.kleinerminer.townyplots.building.Building;
@@ -37,10 +38,11 @@ public class TownyPlots extends JavaPlugin {
 	public ConfigHandler configHandler = null;
 	public FlatfileHandler flatfilehandler = null;
 	public BuildingHandler buildinghandler = null;
-	public Building buildings[] = new Building[1500];
+	public ArrayList<Building> buildings = new ArrayList<Building>();
 	public TownyDataSource townydatasource;
-	public Player[] playersRegisteringChests = new Player[100];
+	public HashMap<Player, String> playersRegisteringChests = new HashMap<Player, String>(); //Player, ChestType
 	public int plotSize;
+	public int threadSleepTime = 1000;
 	
 	
 	@Override
@@ -53,11 +55,9 @@ public class TownyPlots extends JavaPlugin {
 		registerCommands();
 		setupEconomy();
 		flatfilehandler = new FlatfileHandler(this);
-		plotSize = config.getInt("plotSize");
-		if(config.getBoolean("useTownyPlotSize")) {
-			plotSize = TownySettings.getTownBlockSize();
-		}
+		plotSize = TownySettings.getTownBlockSize();
 		flatfilehandler.loadBuildings();
+		threadSleepTime = config.getInt("threadSleepTimeMilliseconds");
 		this.getLogger().info("TownyPlots Enabled!"); 
 	}
 	
@@ -94,7 +94,6 @@ public class TownyPlots extends JavaPlugin {
 	private void registerListeners() {
 		 getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
 		 getServer().getPluginManager().registerEvents(new ClickListener(this), this);
-		 getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
 		 getServer().getPluginManager().registerEvents(new SignChangeListener(this), this);
 	}
 	

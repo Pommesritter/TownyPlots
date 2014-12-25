@@ -108,7 +108,15 @@ public class Farm extends Building {
 				grassBlock.setType(Material.SOIL);
 				Block above = world.getBlockAt(new Location(world, grassBlock.getX(), grassBlock.getY() + 1,grassBlock.getZ()));
 				if(above.getType().equals(Material.AIR))
-					above.setType(Material.CROPS);
+					for(Location loc : inputChests) {
+						if(loc.getWorld().getBlockAt(loc).getType().equals(Material.CHEST)) {
+						Chest ic = (Chest) loc.getWorld().getBlockAt(loc);
+						if(ic.getInventory().contains(Material.SEEDS)) {
+							ic.getInventory().remove(new ItemStack(Material.SEEDS, 1));
+							above.setType(Material.CROPS);
+						}
+						}
+					}
 				hoeHealth --;
 			}
 			
@@ -116,7 +124,15 @@ public class Farm extends Building {
 		ArrayList<Block> soil = plugin.buildinghandler.getSurfaceBlocks(l1, l2, Material.SOIL);
 		for(Block b : soil) {
 			if(b.getRelative(BlockFace.UP).getType().equals(Material.AIR)) {
-				b.getRelative(BlockFace.UP).setType(Material.CROPS);
+				for(Location loc : inputChests) {
+					if(loc.getWorld().getBlockAt(loc).getType().equals(Material.CHEST)) {
+					Chest ic = (Chest) loc.getWorld().getBlockAt(loc);
+					if(ic.getInventory().contains(Material.SEEDS)) {
+						ic.getInventory().remove(new ItemStack(Material.SEEDS, 1));
+						b.getRelative(BlockFace.UP).setType(Material.CROPS);
+					}
+					}
+				}
 			}
 		}
 		

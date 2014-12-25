@@ -1,8 +1,7 @@
 package me.kleinerminer.townyplots;
 
 import me.kleinerminer.townyplots.building.Building;
-import me.kleinerminer.townyplots.building.Lumberhut;
-import me.kleinerminer.townyplots.building.Mine;
+import me.kleinerminer.townyplots.building.SheepFarm;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -64,73 +63,58 @@ public class CE_building implements CommandExecutor {
 		}
 		if(args[0].equalsIgnoreCase("addchest")){
 			if(args.length < 2) { //When args are wrong
-				sender.sendMessage(plugin.lang("specifyChestType")+".");
+				sender.sendMessage(plugin.lang("specifyChestType")+":");
+				sender.sendMessage("[input / output / level]");
 				return true;
 			}
+			//To undestand the following: A chest ArrayList is not initialized if unused.
+			if(args[1].equalsIgnoreCase("input")) {
+				if(building.getInputChests() != null) {
+					plugin.playersRegisteringChests.put(player, "input"); //TODO
+					sender.sendMessage(plugin.lang("registerChest"));
+					return true;
+				} else {
+					sender.sendMessage(plugin.lang("chestNotAppliable") + " Input Chest.");
+					return true;
+				}
+			} else
+			if(args[1].equalsIgnoreCase("output")) {
+				if(building.getOutputChests() != null) {
+					plugin.playersRegisteringChests.put(player, "output"); //TODO
+					sender.sendMessage(plugin.lang("registerChest"));
+					return true;
+				} else {
+					sender.sendMessage(plugin.lang("chestNotAppliable") + " Output Chest.");
+					return true;
+				}
+			} else
+			if(args[1].equalsIgnoreCase("level")) {
+				if(building.getLevelChests() != null) {
+					plugin.playersRegisteringChests.put(player, "level"); //TODO
+					sender.sendMessage(plugin.lang("registerChest"));
+					return true;
+				} else {
+					sender.sendMessage(plugin.lang("chestNotAppliable") + " Level Chest.");
+					return true;
+				}
+			} 
+			//If the chest type specified is not in the list
+			else {
+				
+			}
 		}
-		//Commands for lumberhut
-		if(building instanceof Lumberhut) {
-			if(lumberhutCommands(sender, args, player, building)) return true;
+		if(args[0].equalsIgnoreCase("info")){
+			sender.sendMessage(building.getLevelInfo());
+			sender.sendMessage("ID: "+ building.getId());
+			if(building instanceof SheepFarm) {
+				SheepFarm sf = (SheepFarm) building;
+				sender.sendMessage(plugin.config.getString("lang.sheeps") + ": " + sf.getSheepCount()+"/"+plugin.config.getInt("sheepfarm.sheepsPerLevel") * sf.getLevel());
+			}
+		return true;
 		}
-		//Commands for mine
-		if(building instanceof Mine) {
-			if(mineCommands(sender, args, player, building)) return true;
-		}
-		//TODO add other buildings
-		// if(building instanceof Blah) {
-		
 		
 		sender.sendMessage(plugin.lang("wrongSyntax") + " /b [info/addchest]");
 		return true;
-	}
-	private boolean lumberhutCommands(CommandSender sender, String[] args, Player player, Building building) {
-		//Add different chests
-		if(args[0].equalsIgnoreCase("addchest")){
-			if(args[1].equalsIgnoreCase("output")){ //Add a output chest
-				int i = 0;
-				for(Player p: plugin.playersRegisteringChests) {
-					if(p == null) break;
-					i++;
-				}
-				i++;
-				plugin.playersRegisteringChests[i] = player;
-				sender.sendMessage(plugin.lang("registerChest"));
-				return true;
-			}
-					sender.sendMessage(plugin.lang("specifyChestType") + ": [output]");
-			return true;
-		}
-		if(args[0].equalsIgnoreCase("info")){
-					sender.sendMessage(building.getLevelInfo());
-			return true;
-		}
-		return false;
-				
-	}
-	private boolean mineCommands(CommandSender sender, String[] args, Player player, Building building) {
-		//Add different chests
-		if(args[0].equalsIgnoreCase("addchest")){
-			if(args[1].equalsIgnoreCase("output")){ //Add a output chest
-				int i = 0;
-				for(Player p: plugin.playersRegisteringChests) {
-					if(p == null) break;
-					i++;
-				}
-				i++;
-				plugin.playersRegisteringChests[i] = player;
-				sender.sendMessage(plugin.lang("registerChest"));
-				return true;
-			}
-					sender.sendMessage(plugin.lang("specifyChestType") + ": [output]");
-			return true;
-		}
-		if(args[0].equalsIgnoreCase("info")){
-				sender.sendMessage("ID: "+ building.getId());
-				sender.sendMessage(building.getLevelInfo());
-			return true;
-		}
-		return false;
-				
 	}
 	private TownBlock getPlot(Player player) {
 		return TownyUniverse.getTownBlock(player.getLocation());

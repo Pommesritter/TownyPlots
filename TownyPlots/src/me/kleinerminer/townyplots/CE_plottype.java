@@ -1,8 +1,11 @@
 package me.kleinerminer.townyplots;
 
 import me.kleinerminer.townyplots.building.Building;
+import me.kleinerminer.townyplots.building.Farm;
 import me.kleinerminer.townyplots.building.Lumberhut;
 import me.kleinerminer.townyplots.building.Mine;
+import me.kleinerminer.townyplots.building.SheepFarm;
+import me.kleinerminer.townyplots.building.Stock;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -68,7 +71,8 @@ public class CE_plottype implements CommandExecutor {
 			}
 			Building building = plugin.buildinghandler.getBuilding(player.getLocation());
 			String plotType = building.getType();
-			plugin.buildings[building.getId()] = null;
+			building.getThread().interrupt();
+			plugin.buildings.remove(building.getId());
 			sender.sendMessage(plugin.lang("buildingReset") + " " + plotType);
 			return true;
 		}
@@ -77,15 +81,35 @@ public class CE_plottype implements CommandExecutor {
 			sender.sendMessage(plugin.lang("buildingFound"));
 			return true;
 		}
+		//If there are some dependencies missing
+		if(plugin.buildinghandler.dependenciesMissing(args[0], town) != null) {
+			sender.sendMessage(plugin.lang("dependentBuilding") + " " + plugin.config.getString("lang."+plugin.buildinghandler.dependenciesMissing(args[0], town)));
+			return true;
+		}
 		if(args[0].equalsIgnoreCase("lumberhut")) {
 			if(createLumberhut(player, id, sender, town)) return true; //Create a lumberhut
 		}
 		if(args[0].equalsIgnoreCase("mine")) {
 			if(createMine(player, id, sender, town)) return true; //Create a lumberhut
 		}
+		if(args[0].equalsIgnoreCase("sheepFarm")) {
+			if(createSheepFarm(player, id, sender, town)) return true; //Create a lumberhut
+		}
+		if(args[0].equalsIgnoreCase("stock")) {
+			for(Building b : plugin.buildinghandler.getTownBuildings(town)) {
+				if(b.getType().equals("stock")) {
+					sender.sendMessage(plugin.lang("onlyOneStock"));
+					return true;
+				}
+			}
+			if(createStock(player, id, sender, town)) return true; //Create a lumberhut
+		}
+		if(args[0].equalsIgnoreCase("farm")) {
+			if(createFarm(player, id, sender, town)) return true; //Create a lumberhut
+		}
 		//TODO add more buildings
 		sender.sendMessage(plugin.lang("plotTypesAvailable"));
-		sender.sendMessage("lumberhut, reset");
+		sender.sendMessage("lumberhut, mine, sheepfarm, stock, reset");
 		return false;
 	}
 	private boolean createLumberhut(Player player, int id, CommandSender sender, Town town) {
@@ -101,15 +125,8 @@ public class CE_plottype implements CommandExecutor {
 		}
 		
 		Location buildingLocation = new Location(loc.getWorld(), x, 0, z);
-		try {
-		plugin.buildings[id] = new Lumberhut(buildingLocation, town, id, plugin);
-		plugin.buildings[id].setTown(town);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			sender.sendMessage(plugin.lang("noMoreBuildings") + " (ID " + id + ")");
-			plugin.getLogger().info("Building limit achieved - " + id + ". If you think this is a bug, please restart the server.");
-			plugin.getLogger().info("If you think this is a bug, please restart the server.");
-			return true;
-		}
+		plugin.buildings.add(new Lumberhut(buildingLocation, town, id, plugin));
+		plugin.buildings.get(id).setTown(town);
 		sender.sendMessage(plugin.lang("plottypeSet") + " " + plugin.config.getString("lang.lumberhut"));
 		return true;
 	}
@@ -126,16 +143,63 @@ public class CE_plottype implements CommandExecutor {
 		}
 		
 		Location buildingLocation = new Location(loc.getWorld(), x, 0, z);
-		try {
-		plugin.buildings[id] = new Mine(buildingLocation, town, id, plugin);
-		plugin.buildings[id].setTown(town);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			sender.sendMessage(plugin.lang("noMoreBuildings") + " (ID " + id + ")");
-			plugin.getLogger().info("Building limit achieved - " + id + ". If you think this is a bug, please restart the server.");
-			plugin.getLogger().info("If you think this is a bug, please restart the server.");
-			return true;
-		}
+		plugin.buildings.add(new Mine(buildingLocation, town, id, plugin));
+		plugin.buildings.get(id).setTown(town);
 		sender.sendMessage(plugin.lang("plottypeSet") + " " + plugin.config.getString("lang.mine"));
+		return true;
+	}
+	private boolean createSheepFarm(Player player, int id, CommandSender sender, Town town) {
+		int size = plugin.plotSize;
+		Location loc = player.getLocation();
+		int x = (int)(loc.getX() - (loc.getX() % size));
+		int z = (int)(loc.getZ() - (loc.getZ() % size));
+		if(loc.getX() < 0) {
+			x = ((int)(loc.getX() - (loc.getX() % size)) - size);
+		}
+		if(loc.getZ() < 0) {
+			z = ((int)(loc.getZ() - (loc.getZ() % size)) - size);
+		}
+		
+		Location buildingLocation = new Location(loc.getWorld(), x, 0, z);
+		plugin.buildings.add(new SheepFarm(buildingLocation, town, id, plugin));
+		plugin.buildings.get(id).setTown(town);
+		sender.sendMessage(plugin.lang("plottypeSet") + " " + plugin.config.getString("lang.sheepfarm"));
+		return true;
+	}
+	private boolean createStock(Player player, int id, CommandSender sender, Town town) {
+		int size = plugin.plotSize;
+		Location loc = player.getLocation();
+		int x = (int)(loc.getX() - (loc.getX() % size));
+		int z = (int)(loc.getZ() - (loc.getZ() % size));
+		if(loc.getX() < 0) {
+			x = ((int)(loc.getX() - (loc.getX() % size)) - size);
+		}
+		if(loc.getZ() < 0) {
+			z = ((int)(loc.getZ() - (loc.getZ() % size)) - size);
+		}
+		
+		Location buildingLocation = new Location(loc.getWorld(), x, 0, z);
+		plugin.buildings.add(new Stock(buildingLocation, town, id, plugin));
+		plugin.buildings.get(id).setTown(town);
+		sender.sendMessage(plugin.lang("plottypeSet") + " " + plugin.config.getString("lang.stock"));
+		return true;
+	}
+	private boolean createFarm(Player player, int id, CommandSender sender, Town town) {
+		int size = plugin.plotSize;
+		Location loc = player.getLocation();
+		int x = (int)(loc.getX() - (loc.getX() % size));
+		int z = (int)(loc.getZ() - (loc.getZ() % size));
+		if(loc.getX() < 0) {
+			x = ((int)(loc.getX() - (loc.getX() % size)) - size);
+		}
+		if(loc.getZ() < 0) {
+			z = ((int)(loc.getZ() - (loc.getZ() % size)) - size);
+		}
+		
+		Location buildingLocation = new Location(loc.getWorld(), x, 0, z);
+		plugin.buildings.add(new Farm(buildingLocation, town, id, plugin));
+		plugin.buildings.get(id).setTown(town);
+		sender.sendMessage(plugin.lang("plottypeSet") + " " + plugin.config.getString("lang.farm"));
 		return true;
 	}
 
