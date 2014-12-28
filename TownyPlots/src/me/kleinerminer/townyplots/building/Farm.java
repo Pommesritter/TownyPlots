@@ -63,73 +63,54 @@ public class Farm extends Building {
 	
 	@SuppressWarnings("deprecation")
 	public void farm() {
+		int sleepTime = 50;
 		int fieldExpansion = plugin.config.getInt("farm.fieldExpansionBasic")+level*plugin.config.getInt("farm.fieldExpansionPerLevel");
 		Location l1 = new Location(world, x - fieldExpansion ,y,z - fieldExpansion);
 		Location l2 = new Location(world, x2 + fieldExpansion, y2, z2 + fieldExpansion);
 		ArrayList<Block> crops = plugin.buildinghandler.getBlocks(l1, l2, Material.CROPS);
+		//Harvest the Ripe crops
 		for(Block b : crops) {
-			//50% of the crops will grow
-			if(Math.random() > 0.5) {
-			if(b.getData() == (CropState.SEEDED.getData())) {
-				b.setData(CropState.GERMINATED.getData());
-			} else if(b.getData() == (CropState.GERMINATED.getData())) {
-				b.setData(CropState.VERY_SMALL.getData());
-			} else if(b.getData() == (CropState.VERY_SMALL.getData())) {
-				b.setData(CropState.SMALL.getData());
-			}else if(b.getData() == (CropState.SMALL.getData())) {
-				b.setData(CropState.MEDIUM.getData());
-			} else if(b.getData() == (CropState.MEDIUM.getData())) {
-				b.setData(CropState.TALL.getData());
-			} else if(b.getData() == (CropState.TALL.getData())) {
-				b.setData(CropState.VERY_TALL.getData());
-			} else if(b.getData() == (CropState.VERY_TALL.getData())) {
-				b.setData(CropState.RIPE.getData());
-			} else if(b.getData() == (CropState.RIPE.getData())) {
-				b.setData(CropState.GERMINATED.getData());
+			if(b.getData() == (CropState.RIPE.getData())) {
+				b.setType(Material.AIR);
 				for(Location loc : outputChests) {
 					if(loc != null && loc.getBlock().getType().equals(Material.CHEST)) {
 						Chest chest = (Chest)loc.getWorld().getBlockAt(loc).getState();
-						 //If the chest is not full
-						if(chest.getBlockInventory().firstEmpty() != -1) {
+						//If the chest is not full
+						if(chest.getBlockInventory().firstEmpty() > -1) {
 							chest.getBlockInventory().addItem(new ItemStack(Material.WHEAT, 1));
-							//Only ONE chest should get Items
+							chest.getBlockInventory().addItem(new ItemStack(Material.SEEDS, 1 + (int)(Math.random()*2)));
 							break; 
 						}
 					}
+					
 				}
 			}
-			}
+			
 		}
+		//Make soil ready with hoe
 		if(hoeHealth > 0) {
 			ArrayList<Block> grass = plugin.buildinghandler.getSurfaceBlocks(l1, l2, Material.GRASS);
 			grass.addAll(plugin.buildinghandler.getSurfaceBlocks(l1, l2, Material.DIRT));
 			for(Block grassBlock : grass) {
 				if(hoeHealth == 0) break;
+				sleep(sleepTime);
 				grassBlock.setType(Material.SOIL);
-				Block above = world.getBlockAt(new Location(world, grassBlock.getX(), grassBlock.getY() + 1,grassBlock.getZ()));
-				if(above.getType().equals(Material.AIR))
-					for(Location loc : inputChests) {
-						if(loc.getWorld().getBlockAt(loc).getType().equals(Material.CHEST)) {
-						Chest ic = (Chest) loc.getWorld().getBlockAt(loc);
-						if(ic.getInventory().contains(Material.SEEDS)) {
-							ic.getInventory().remove(new ItemStack(Material.SEEDS, 1));
-							above.setType(Material.CROPS);
-						}
-						}
-					}
 				hoeHealth --;
 			}
 			
 		}
 		ArrayList<Block> soil = plugin.buildinghandler.getSurfaceBlocks(l1, l2, Material.SOIL);
+		//Plant new crops
 		for(Block b : soil) {
-			if(b.getRelative(BlockFace.UP).getType().equals(Material.AIR)) {
+			if(b.getRelative(BlockFace.UP).getType().equals(Material.AIR) && b.getType().equals(Material.SOIL)) {
 				for(Location loc : inputChests) {
 					if(loc.getWorld().getBlockAt(loc).getType().equals(Material.CHEST)) {
-					Chest ic = (Chest) loc.getWorld().getBlockAt(loc);
+					Chest ic = (Chest) loc.getWorld().getBlockAt(loc).getState();
 					if(ic.getInventory().contains(Material.SEEDS)) {
-						ic.getInventory().remove(new ItemStack(Material.SEEDS, 1));
+						ic.getInventory().removeItem(new ItemStack(Material.SEEDS, 1));
+						sleep(sleepTime);
 						b.getRelative(BlockFace.UP).setType(Material.CROPS);
+						b.getRelative(BlockFace.UP).setData(CropState.GERMINATED.getData());
 					}
 					}
 				}
@@ -138,7 +119,11 @@ public class Farm extends Building {
 		
 	}
 	
-	
+	public void sleep(int millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) { }
+	}
 	public void refreshLevel() {
 		level = 0;
 		
