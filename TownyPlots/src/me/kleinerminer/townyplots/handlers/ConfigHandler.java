@@ -23,6 +23,7 @@ public class ConfigHandler {
 		setConfigEntry("lumberhut.yRelative", 10);
 		setConfigEntry("lumberhut.highestYRelativeToFloor", true);
 		setConfigEntry("lumberhut.lowestYRelativeToFloor", true);
+		setConfigEntry("lumberhut.hourlyUpkeep", 30.0);
 		
 		setConfigEntry("sheepfarm.basicProducingTime", 40);
 		setConfigEntry("sheepfarm.producingTimeLevelStep", 5.0);
@@ -34,6 +35,7 @@ public class ConfigHandler {
 		setConfigEntry("sheepfarm.yRelative", 10);
 		setConfigEntry("sheepfarm.highestYRelativeToFloor", true);
 		setConfigEntry("sheepfarm.lowestYRelativeToFloor", true);
+		setConfigEntry("sheepfarm.hourlyUpkeep", 50.0);
 		
 		setConfigEntry("mine.basicProducingTime", 10);
 		setConfigEntry("mine.producingTimePerBlockDepth", 0.1);
@@ -41,6 +43,7 @@ public class ConfigHandler {
 		setConfigEntry("mine.efficiencyLossOnBlockGain", 0.1);
 		setConfigEntry("mine.useProbabilitySystem", true);
 		setConfigEntry("mine.gainableBlocks", "DIRT, GRAVEL, STONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE");
+		setConfigEntry("mine.hourlyUpkeep", 60.0);
 
 		setConfigEntry("farm.basicFarmInterval", 60);
 		setConfigEntry("farm.farmIntervalLevelStep", 5.0);
@@ -51,6 +54,7 @@ public class ConfigHandler {
 		setConfigEntry("farm.yRelative", 10);
 		setConfigEntry("farm.highestYRelativeToFloor", true);
 		setConfigEntry("farm.lowestYRelativeToFloor", true);
+		setConfigEntry("farm.hourlyUpkeep", 40.0);
 		
 		setConfigEntry("stock.timePerBlock", 0.25);
 		
@@ -88,6 +92,8 @@ public class ConfigHandler {
 		setConfigEntry("lang.stockChestRemoved", "Stock chest was removed successfully");
 		setConfigEntry("lang.workCeased", "Building work stopped.");
 		setConfigEntry("lang.workContinues", "This building will continue work now.");
+		setConfigEntry("lang.alreadyCeased", "This building is not working at the moment.");
+		setConfigEntry("lang.alreadyWorking", "This building is already working.");
 		 
 		setConfigEntry("lang.depth", "Depth");
 		setConfigEntry("lang.blocks", "Block");
@@ -98,6 +104,9 @@ public class ConfigHandler {
 		setConfigEntry("lang.sheeps", "Sheeps");
 		setConfigEntry("lang.sheepsForProduction", "Sheeps required for producing wool:");
 		setConfigEntry("lang.hoeHealth", "Hoe health");
+		setConfigEntry("lang.yes", "Yes");
+		setConfigEntry("lang.no", "No");
+		setConfigEntry("lang.working", "Working");
 		
 		setConfigEntry("lang.lumberhut", "Lumberjacks hut");
 		setConfigEntry("lang.mine", "Mine");

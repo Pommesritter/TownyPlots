@@ -192,7 +192,7 @@ public class Farm extends Building {
 	@Override
 	public String getLevelInfo() {
 		if(level == getMaxLevel()) {
-			return lang(plugin.config.getString("lang.maxLevel") +" (Level " + getLevel()+")");
+			return plugin.config.getString("lang.maxLevel") +" (Level " + getLevel()+")";
 		}
 		String outputFormatted = ""; //String will format the level data to: "BlockType: Given/Required"
 		for(int i = 0; (i <= level + 1) && (requiredBlocks()[i] != null); i++) {
@@ -200,7 +200,7 @@ public class Farm extends Building {
 					+ "/" + requiredBlockAmount().get(requiredBlocks()[i]);
 		}
 		int nextLevel = level + 1;
-		return (lang(plugin.config.getString("lang.blocksNeeded") + " " + nextLevel + ": " + outputFormatted));
+		return plugin.config.getString("lang.blocksNeeded") + " " + nextLevel + ": " + outputFormatted;
 	}
 	private int getMaxLevel() {
 		int i = 1;
@@ -338,9 +338,6 @@ public class Farm extends Building {
 	@Override
 	public int getLevel() {
 		return level;
-	}
-	private String lang(String s) {
-		return "["+plugin.config.getString("lang." + type)+"] " + s;
 	}
 	@Override
 	public int getY() {

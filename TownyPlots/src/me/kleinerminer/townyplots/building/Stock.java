@@ -73,10 +73,7 @@ public class Stock extends Building {
 	}
 	@Override
 	public String getLevelInfo() {
-		return lang("ID: " + id); 
-	}
-	private String lang(String s) {
-		return "["+plugin.config.getString("lang."+type)+"] " + s;
+		return "";
 	}
 	
 	@Override

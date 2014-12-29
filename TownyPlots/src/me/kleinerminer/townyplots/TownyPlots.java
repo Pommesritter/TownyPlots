@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.ChatPaginator;
 
 import com.palmergames.bukkit.towny.TownySettings;
 import com.palmergames.bukkit.towny.db.TownyDataSource;
@@ -119,5 +120,17 @@ public class TownyPlots extends JavaPlugin {
     		if(b.getX() == x && b.getZ() == z) return b;
     	}
     	return null;
+    }
+    //Format to heading
+    public String heading(String text) {
+        String title = "";
+        for(int x = 0; x <= ((ChatPaginator.GUARANTEED_NO_WRAP_CHAT_PAGE_WIDTH / 2) - text.length()); x ++){
+            title += "-";
+        }
+        title += text;
+        for(int x = 0; x <= ((ChatPaginator.GUARANTEED_NO_WRAP_CHAT_PAGE_WIDTH / 2) - text.length()); x ++){
+            title += "-";
+        }
+        return title;
     }
 }

@@ -75,7 +75,7 @@ public class Mine extends Building {
 	@Override
 	public String getLevelInfo() {
 		int depth = y - y2;
-		return (lang(plugin.config.getString("lang.levelInfoMine") + ": " + depth));
+		return plugin.config.getString("lang.levelInfoMine") + ": " + depth;
 	}
 	
 	@Override
@@ -195,9 +195,6 @@ public class Mine extends Building {
 	@Override
 	public int getLevel() {
 		return y - y2;
-	}
-	private String lang(String s) {
-		return "["+plugin.config.getString("lang.mine")+"] " + s;
 	}
 	public int getDepth() {
 		return depth;

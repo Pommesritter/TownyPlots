@@ -1,6 +1,7 @@
 package me.kleinerminer.townyplots;
 
 import me.kleinerminer.townyplots.building.Building;
+import me.kleinerminer.townyplots.building.Mine;
 import me.kleinerminer.townyplots.building.SheepFarm;
 
 import org.bukkit.command.Command;
@@ -78,26 +79,50 @@ public class CE_building implements CommandExecutor {
 				}
 		} else
 		if(args[0].equalsIgnoreCase("info")){
-			sender.sendMessage(building.getLevelInfo());
+			sender.sendMessage(plugin.heading(plugin.config.getString("lang."+ building.getType())));
 			sender.sendMessage("ID: "+ building.getId());
+			if(!building.getLevelInfo().equals(""))
+				sender.sendMessage(building.getLevelInfo());
+			if(building.isWorkCeased())
+				sender.sendMessage(plugin.config.getString("lang.working")+": "+ plugin.config.getString("lang.no"));
+			else
+				sender.sendMessage(plugin.config.getString("lang.working")+": "+ plugin.config.getString("lang.yes"));
 			if(building instanceof SheepFarm) {
 				SheepFarm sf = (SheepFarm) building;
 				sender.sendMessage(plugin.config.getString("lang.sheeps") + ": " + sf.getSheepCount()+"/"+plugin.config.getInt("sheepfarm.sheepsPerLevel") * sf.getLevel());
+				sender.sendMessage(plugin.config.getString("lang.radius") + ": " + sf.getRadius());
+				sender.sendMessage(plugin.config.getString("lang.sheeps")+": "+sf.getSheepCount()); 
+			} else if(building instanceof Mine) {
+				Mine m = (Mine) building;
+				sender.sendMessage(plugin.config.getString("lang.efficiency") + ": " + m.getEfficiency()+"%"); 
 			}
 		return true;
 		} else
 		if(args[0].equalsIgnoreCase("work")) {
+			if(args.length <= 1) {
+				sender.sendMessage(plugin.lang("wrongSyntax") + " /b work [cease/resume]");
+				return true;
+			}	
 			if(args[1].equalsIgnoreCase("cease")) {
+				if(building.isWorkCeased()) {
+					sender.sendMessage(plugin.lang("alreadyCeased"));
+					return true;
+				}
 				sender.sendMessage(plugin.lang("workCeased"));
 				building.setIsWorkCeased(true);
 				return true;
 			} else
 			if(args[1].equalsIgnoreCase("resume")) {
+				if(!building.isWorkCeased()) {
+					sender.sendMessage(plugin.lang("alreadyWorking"));
+					return true;
+				}
 				sender.sendMessage(plugin.lang("workContinues"));
 				building.setIsWorkCeased(false);
 				return true;
 			} else {
-				sender.sendMessage(plugin.lang("wrongSyntax" + " /b work [cease/continue]"));
+				sender.sendMessage(plugin.lang("wrongSyntax") + " /b work [cease/resume]");
+				return true;
 			}
 		}
 		

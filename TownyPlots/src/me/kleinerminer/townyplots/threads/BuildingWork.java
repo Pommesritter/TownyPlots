@@ -53,6 +53,8 @@ public class BuildingWork extends Thread {
 	}
 	private void farmWork(Farm farm) {
 		farm.refreshLevel();
+		if(b.getLevel() <= 0)
+			b.setIsWorkCeased(true);
 		plugin.buildinghandler.refreshSign(farm.getInfoSign(), farm);
 		if(farm.getHoeHealth() == 0)
 		refreshHoeHealth: for(Location loc: farm.getChests("input")) {
@@ -92,8 +94,6 @@ public class BuildingWork extends Thread {
 		//x Sec per wood on lv0 minus x sec per level
 		int time = (int) (plugin.config.getInt("farm.basicFarmInterval") - 
 				(farm.getLevel() * plugin.config.getDouble("farm.farmIntervalLevelStep")));
-		//No producing on lv0
-		if(farm.getLevel() != 0)
 		if(productionCounter >= time && !farm.isWorkCeased()) {
 			productionCounter = 0;
 			farm.farm();
@@ -103,12 +103,13 @@ public class BuildingWork extends Thread {
 	}
 	private void lumberhutWork(Lumberhut lumberhut) {
 		lumberhut.refreshLevel();
+		if(b.getLevel() <= 0)
+			b.setIsWorkCeased(true);
 		plugin.buildinghandler.refreshSign(lumberhut.getInfoSign(), lumberhut);
 		//x Sec per wood on lv0 minus x sec per level
 		int time = (int) (plugin.config.getInt("lumberhut.basicProducingTime") - (lumberhut.getLevel() * 
 				plugin.config.getDouble("lumberhut.producingTimeLevelStep")));
 		//No producing on lv0
-		if(lumberhut.getLevel() != 0) 
 		if(productionCounter >= time && !lumberhut.isWorkCeased()) { 
 		productionCounter = 0;
 		for(Location loc : lumberhut.getChests("output")) {
@@ -131,7 +132,7 @@ public class BuildingWork extends Thread {
 				plugin.config.getInt("mine.producingTimePerBlockDepth")*mine.getDepth();
 		plugin.buildinghandler.refreshSign(mine.getInfoSign(), mine);
 		//x Sec per Material on lv0 plus x sec per block of depth
-		if(productionCounter >= time && !mine.isWorkCeased()) { 
+		if(productionCounter >= time && !mine.isWorkCeased()) {
 		productionCounter = 0;
 		for(Location loc : mine.getChests("output")) {
 			if(loc != null && loc.getBlock().getType().equals(Material.CHEST)) {
@@ -219,6 +220,8 @@ public class BuildingWork extends Thread {
 	}
 	private void sheepFarmWork(SheepFarm sheepFarm) {
 		sheepFarm.refreshLevel();
+		if(b.getLevel() <= 0)
+			b.setIsWorkCeased(true);
 		plugin.buildinghandler.refreshSign(sheepFarm.getInfoSign(), sheepFarm);
 		double radius = sheepFarm.getRadius();
 		int sheepCount = 0;
@@ -233,7 +236,6 @@ public class BuildingWork extends Thread {
 		} catch (ConcurrentModificationException e) {}
 		int time = (int) (plugin.config.getInt("sheepfarm.basicProducingTime") - (sheepFarm.getLevel() * 
 				plugin.config.getDouble("sheepfarm.producingTimeLevelStep")));
-		if(sheepFarm.getLevel() != 0) //No producing on lv0
 		if(productionCounter >= time && !sheepFarm.isWorkCeased()) { //x Sec per wood on lv0 minus x sec per level
 		productionCounter = 0;
 		for(Location loc : sheepFarm.getChests("output")) {
