@@ -28,6 +28,7 @@ public class SheepFarm extends Building {
 	Town town;
 	String type = "sheepfarm";
 	public Location center;
+	private boolean isWorkCeased = false;
 	// World world;
 	private TownyPlots plugin;
 	public SheepFarm(Location loc, Town town, int id, TownyPlots townyplots) {
@@ -235,33 +236,45 @@ public class SheepFarm extends Building {
 		this.ID = id;
 	}
 	@Override
-	public ArrayList<Location> getOutputChests() {
-		return outputChests;
+	public ArrayList<Location> getChests(String type) {
+		if(type.equals("input")) {
+			return inputChests;
+		}
+		if(type.equals("output")) {
+			return outputChests;
+		}
+		if(type.equals("level")) {
+			return levelChests;
+		}
+		return null;
 	}
 	@Override
-	public void addOutputChest(Location loc) {
-		this.outputChests.add(loc);
+	public void addChest(String type, Location loc) {
+		if(type.equals("input")) {
+			this.inputChests.add(loc);
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests.add(loc);
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests.add(loc);
+		}
 	}
 	@Override
-	public void setOutputChests(ArrayList<Location> outputChests) {
-		this.outputChests = outputChests;
-		
-	}
-	@Override
-	public ArrayList<Location> getInputChests() {
-		return inputChests;
-	}
-	@Override
-	public void setInputChests(ArrayList<Location> loc) {
-		inputChests = loc;
-	}
-	@Override
-	public ArrayList<Location> getLevelChests() {
-		return levelChests;
-	}
-	@Override
-	public void setLevelChests(ArrayList<Location> loc) {
-		levelChests = loc;
+	public void setChests(String type, ArrayList<Location> chests) {
+		if(type.equals("input")) {
+			this.inputChests = chests;
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests = chests;
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests = chests;
+		}
 		
 	}
 	@Override
@@ -294,5 +307,14 @@ public class SheepFarm extends Building {
 	@Override
 	public Thread getThread() {
 		return work;
+	}
+	@Override
+	public boolean isWorkCeased() {
+		return isWorkCeased;
+	}
+
+	@Override
+	public void setIsWorkCeased(boolean bool) {
+		isWorkCeased = bool;
 	}
 }

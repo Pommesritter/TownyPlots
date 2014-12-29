@@ -1,7 +1,8 @@
 package me.kleinerminer.townyplots.building;
 
 
-import me.kleinerminer.townyplots.threads.MineWork;
+import java.util.ArrayList;
+
 import me.kleinerminer.townyplots.TownyPlots;
 
 import org.bukkit.Location;
@@ -12,7 +13,9 @@ import org.bukkit.block.Sign;
 import com.palmergames.bukkit.towny.object.Town;
 
 public class Mine extends Building {
-	private Location[] outputChest = new Location[40]; //Location of chests to add items to
+	private ArrayList<Location> outputChests = new ArrayList<Location>(); //Location of chests to add items to
+	private ArrayList<Location> inputChests = null; //Location of chests to get items From, unused!
+	private ArrayList<Location> levelChests = null; //Location of chests to get the blocks for next level
 	
 	int depth = 0;
 	int y;
@@ -22,11 +25,13 @@ public class Mine extends Building {
 	Town town;
 	World world;
 	Sign infoSign;
+	Thread work;
 	int id;
+	double efficiency = 100;
+	private boolean isWorkCeased = false;
 	String type = "mine";
 	// World world;
 	private TownyPlots plugin;
-	private MineWork work;
 	public Mine(Location loc, Town town, int id, TownyPlots townyplots) {
 		super((int) loc.getX(), (int) loc.getZ(), loc.getWorld(), id);
 		this.plugin = townyplots;
@@ -42,8 +47,7 @@ public class Mine extends Building {
 		setWorld(loc.getWorld());
 		setId(id);
 		setSize(size);
-		this.work = new MineWork(plugin, this);
-		work.start();
+		work = plugin.buildinghandler.startWork(this);
 	}
 	
 
@@ -62,7 +66,12 @@ public class Mine extends Building {
 		}
 		System.gc(); //Remove all the locations
 	}
-	
+	public void setEfficiency(double d) {
+		efficiency = d;
+	}
+	public double getEfficiency() {
+		return efficiency;
+	}
 	@Override
 	public String getLevelInfo() {
 		int depth = y - y2;
@@ -142,16 +151,45 @@ public class Mine extends Building {
 		this.ID = id;
 	}
 	@Override
-	public Location[] getOutputChests() {
-		return outputChest;
+	public ArrayList<Location> getChests(String type) {
+		if(type.equals("input")) {
+			return inputChests;
+		}
+		if(type.equals("output")) {
+			return outputChests;
+		}
+		if(type.equals("level")) {
+			return levelChests;
+		}
+		return null;
 	}
 	@Override
-	public void setOutputChests(int index, Location loc) {
-		this.outputChest[index] = loc;
+	public void addChest(String type, Location loc) {
+		if(type.equals("input")) {
+			this.inputChests.add(loc);
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests.add(loc);
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests.add(loc);
+		}
 	}
 	@Override
-	public void setOutputChests(Location[] outputChests) {
-		outputChest = outputChests;
+	public void setChests(String type, ArrayList<Location> chests) {
+		if(type.equals("input")) {
+			this.inputChests = chests;
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests = chests;
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests = chests;
+		}
 		
 	}
 	@Override
@@ -181,5 +219,22 @@ public class Mine extends Building {
 	@Override
 	public void setInfoSign(Sign sign) {
 		infoSign = sign;
+	}
+	@Override
+	public Location getLocation() {
+		return new Location(world,x,y,z);
+	}
+	@Override
+	public Thread getThread() {
+		return work;
+	}
+	@Override
+	public boolean isWorkCeased() {
+		return isWorkCeased;
+	}
+
+	@Override
+	public void setIsWorkCeased(boolean bool) {
+		isWorkCeased = bool;
 	}
 }

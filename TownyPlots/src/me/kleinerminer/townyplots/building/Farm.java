@@ -23,6 +23,7 @@ public class Farm extends Building {
 	private ArrayList<Location> outputChests = new ArrayList<Location>(); //Location of chests to add items to
 	private ArrayList<Location> inputChests = new ArrayList<Location>(); //Location of chests to get items From, unused!
 	private ArrayList<Location> levelChests = null; //Location of chests to get the blocks for next level
+	private boolean isWorkCeased = false;
 	
 	int level = 0;
 	int y;
@@ -293,33 +294,45 @@ public class Farm extends Building {
 		this.ID = id;
 	}
 	@Override
-	public ArrayList<Location> getOutputChests() {
-		return outputChests;
+	public ArrayList<Location> getChests(String type) {
+		if(type.equals("input")) {
+			return inputChests;
+		}
+		if(type.equals("output")) {
+			return outputChests;
+		}
+		if(type.equals("level")) {
+			return levelChests;
+		}
+		return null;
 	}
 	@Override
-	public void addOutputChest(Location loc) {
-		this.outputChests.add(loc);
+	public void addChest(String type, Location loc) {
+		if(type.equals("input")) {
+			this.inputChests.add(loc);
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests.add(loc);
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests.add(loc);
+		}
 	}
 	@Override
-	public void setOutputChests(ArrayList<Location> outputChests) {
-		this.outputChests = outputChests;
-		
-	}
-	@Override
-	public ArrayList<Location> getInputChests() {
-		return inputChests;
-	}
-	@Override
-	public void setInputChests(ArrayList<Location> loc) {
-		inputChests = loc;
-	}
-	@Override
-	public ArrayList<Location> getLevelChests() {
-		return levelChests;
-	}
-	@Override
-	public void setLevelChests(ArrayList<Location> loc) {
-		levelChests = loc;
+	public void setChests(String type, ArrayList<Location> chests) {
+		if(type.equals("input")) {
+			this.inputChests = chests;
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests = chests;
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests = chests;
+		}
 		
 	}
 	@Override
@@ -352,5 +365,14 @@ public class Farm extends Building {
 	@Override
 	public Thread getThread() {
 		return work;
+	}
+	@Override
+	public boolean isWorkCeased() {
+		return isWorkCeased;
+	}
+
+	@Override
+	public void setIsWorkCeased(boolean bool) {
+		isWorkCeased = bool;
 	}
 }

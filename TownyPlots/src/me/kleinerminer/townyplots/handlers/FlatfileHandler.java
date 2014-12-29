@@ -50,8 +50,8 @@ public class FlatfileHandler {
 			setEntry(mainRoot + "town", b.getTown().getName());
 			int i = 0;
 			//Save input chests
-			if(b.getInputChests() != null)
-			for(Location loc : b.getInputChests()) {
+			if(b.getChests("input") != null)
+			for(Location loc : b.getChests("input")) {
 				if(loc != null){
 					setEntry(mainRoot + "chests.input." + i + ".x", loc.getX());
 					setEntry(mainRoot + "chests.input." + i + ".y", loc.getY());
@@ -61,8 +61,8 @@ public class FlatfileHandler {
 			}
 			i = 0;
 			//Save output chests
-			if(b.getOutputChests() != null)
-			for(Location loc : b.getOutputChests()) {
+			if(b.getChests("output") != null)
+			for(Location loc : b.getChests("output")) {
 				if(loc != null){
 					setEntry(mainRoot + "chests.output." + i + ".x", loc.getX());
 					setEntry(mainRoot + "chests.output." + i + ".y", loc.getY());
@@ -72,8 +72,8 @@ public class FlatfileHandler {
 			}
 			i = 0;
 			//Save Level chests
-			if(b.getLevelChests() != null)
-			for(Location loc : b.getLevelChests()) {
+			if(b.getChests("level") != null)
+			for(Location loc : b.getChests("level")) {
 				if(loc != null){
 					setEntry(mainRoot + "chests.level." + i + ".x", loc.getX());
 					setEntry(mainRoot + "chests.level." + i + ".y", loc.getY());
@@ -195,11 +195,11 @@ public class FlatfileHandler {
 				}
 				
 				if(inputChests != null) 
-					b.setInputChests(inputChests);
+					b.setChests("input",inputChests);
 				if(outputChests != null)
-					b.setOutputChests(outputChests);
+					b.setChests("output", outputChests);
 				if(levelChests != null)
-					b.setLevelChests(levelChests);
+					b.setChests("level", levelChests);
 				
 				int infoSignX = plugin.plotdata.getInt(s + ".infoSign.x");
 				int infoSignY = plugin.plotdata.getInt(s + ".infoSign.y");

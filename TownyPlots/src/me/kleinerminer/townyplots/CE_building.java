@@ -67,42 +67,16 @@ public class CE_building implements CommandExecutor {
 				sender.sendMessage("[input / output / level]");
 				return true;
 			}
-			//To undestand the following: A chest ArrayList is not initialized if unused.
-			if(args[1].equalsIgnoreCase("input")) {
-				if(building.getInputChests() != null) {
-					plugin.playersRegisteringChests.put(player, "input"); //TODO
-					sender.sendMessage(plugin.lang("registerChest"));
-					return true;
-				} else {
-					sender.sendMessage(plugin.lang("chestNotAppliable") + " Input Chest.");
-					return true;
+			//To undestand the following: A chest ArrayList is not initialized if the chestType is unused.
+			if(building.getChests(args[1]) != null) {
+				plugin.playersRegisteringChests.put(player, "input");
+				sender.sendMessage(plugin.lang("registerChest"));
+				return true;
+			} else {
+				sender.sendMessage(plugin.lang("chestNotAppliable")+ ".");
+				return true;
 				}
-			} else
-			if(args[1].equalsIgnoreCase("output")) {
-				if(building.getOutputChests() != null) {
-					plugin.playersRegisteringChests.put(player, "output"); //TODO
-					sender.sendMessage(plugin.lang("registerChest"));
-					return true;
-				} else {
-					sender.sendMessage(plugin.lang("chestNotAppliable") + " Output Chest.");
-					return true;
-				}
-			} else
-			if(args[1].equalsIgnoreCase("level")) {
-				if(building.getLevelChests() != null) {
-					plugin.playersRegisteringChests.put(player, "level"); //TODO
-					sender.sendMessage(plugin.lang("registerChest"));
-					return true;
-				} else {
-					sender.sendMessage(plugin.lang("chestNotAppliable") + " Level Chest.");
-					return true;
-				}
-			} 
-			//If the chest type specified is not in the list
-			else {
-				
-			}
-		}
+		} else
 		if(args[0].equalsIgnoreCase("info")){
 			sender.sendMessage(building.getLevelInfo());
 			sender.sendMessage("ID: "+ building.getId());
@@ -111,9 +85,23 @@ public class CE_building implements CommandExecutor {
 				sender.sendMessage(plugin.config.getString("lang.sheeps") + ": " + sf.getSheepCount()+"/"+plugin.config.getInt("sheepfarm.sheepsPerLevel") * sf.getLevel());
 			}
 		return true;
+		} else
+		if(args[0].equalsIgnoreCase("work")) {
+			if(args[1].equalsIgnoreCase("cease")) {
+				sender.sendMessage(plugin.lang("workCeased"));
+				building.setIsWorkCeased(true);
+				return true;
+			} else
+			if(args[1].equalsIgnoreCase("resume")) {
+				sender.sendMessage(plugin.lang("workContinues"));
+				building.setIsWorkCeased(false);
+				return true;
+			} else {
+				sender.sendMessage(plugin.lang("wrongSyntax" + " /b work [cease/continue]"));
+			}
 		}
 		
-		sender.sendMessage(plugin.lang("wrongSyntax") + " /b [info/addchest]");
+		sender.sendMessage(plugin.lang("wrongSyntax") + " /b [info/addchest/work]");
 		return true;
 	}
 	private TownBlock getPlot(Player player) {

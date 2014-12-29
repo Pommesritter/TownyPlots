@@ -1,31 +1,39 @@
 package me.kleinerminer.townyplots.building;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import me.kleinerminer.townyplots.TownyPlots;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.inventory.ItemStack;
 
 import com.palmergames.bukkit.towny.object.Town;
 
 public class Stock extends Building {
-	private Location[] outputChest = new Location[40]; //Location of chests to add items to
+	private ArrayList<Location> outputChests = null; //Location of chests to add items to, unused.
+	private ArrayList<Location> inputChests = null; //Location of chests to get items From, unused!
+	private ArrayList<Location> levelChests = null; //Location of chests to get the blocks for next level, unused.
+	public HashMap<Material, Chest> materialChest = new HashMap<Material, Chest>(); //Location of chests to get the blocks for next level
+	private boolean isWorkCeased = false;
 	
-	int depth = 0;
 	int y;
-	int y2; //Flexible y-coord (will move downwards on lv up
+	int y2;
 	int ymin = 5;
 	int size;
 	Town town;
 	World world;
+	Thread work;
 	Sign infoSign;
 	int id;
-	String type = "mine";
+	String type = "stock";
 	// World world;
 	private TownyPlots plugin;
-	//TODO private MineWork work;
 	public Stock(Location loc, Town town, int id, TownyPlots townyplots) {
 		super((int) loc.getX(), (int) loc.getZ(), loc.getWorld(), id);
 		this.plugin = townyplots;
@@ -41,31 +49,34 @@ public class Stock extends Building {
 		setWorld(loc.getWorld());
 		setId(id);
 		setSize(size);
-		//TODO this.work = new StockWork(plugin, this);
-		//work.start();
+		work = plugin.buildinghandler.startWork(this);
 	}
 	
 
 
-	public void refreshDepth() {
-		y2 = y;
-		depth = 0;
-		Location l1 = new Location(world, x, y2, z);
-		Location l2 = new Location(world, x2, y2, z2);
-		while(plugin.buildinghandler.countBlocks(l1, l2, Material.RAILS) > 0) {
-			y2--;
-			depth++;
-			l1 = new Location(world, x, y2, z);
-			l2 = new Location(world, x2, y2, z2);
-			if(y2 == ymin) break;
+	public void itemTransfer(Chest c1) {
+		if(c1.getInventory().getContents() == null) return;
+		for(ItemStack stack: c1.getInventory().getContents()) {
+			if(stack != null) {
+			Material m = stack.getType();
+			ItemStack oneOfStack = new ItemStack(stack.getType(), 1);
+			//If the stock has a chest for the material
+			if(materialChest.containsKey(m)) {
+				c1.getInventory().removeItem(oneOfStack);
+				//Now get the Chest for the material and add the Item to it.
+				try {
+				materialChest.get(m).getInventory().addItem(oneOfStack);
+				} catch (IllegalStateException e) { }
+			}
+			}
 		}
-		System.gc(); //Remove all the locations
 	}
-	
 	@Override
 	public String getLevelInfo() {
-		int depth = y - y2;
-		return (lang(plugin.config.getString("lang.levelInfoMine") + ": " + depth));
+		return lang("ID: " + id); 
+	}
+	private String lang(String s) {
+		return "["+plugin.config.getString("lang."+type)+"] " + s;
 	}
 	
 	@Override
@@ -141,33 +152,54 @@ public class Stock extends Building {
 		this.ID = id;
 	}
 	@Override
-	public Location[] getOutputChests() {
-		return outputChest;
+	public ArrayList<Location> getChests(String type) {
+		if(type.equals("input")) {
+			return inputChests;
+		}
+		if(type.equals("output")) {
+			return outputChests;
+		}
+		if(type.equals("level")) {
+			return levelChests;
+		}
+		return null;
 	}
 	@Override
-	public void setOutputChests(int index, Location loc) {
-		this.outputChest[index] = loc;
+	public void addChest(String type, Location loc) {
+		if(type.equals("input")) {
+			this.inputChests.add(loc);
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests.add(loc);
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests.add(loc);
+		}
 	}
 	@Override
-	public void setOutputChests(Location[] outputChests) {
-		outputChest = outputChests;
+	public void setChests(String type, ArrayList<Location> chests) {
+		if(type.equals("input")) {
+			this.inputChests = chests;
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests = chests;
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests = chests;
+		}
 		
 	}
 	@Override
 	public int getLevel() {
 		return y - y2;
 	}
-	private String lang(String s) {
-		return "["+plugin.config.getString("lang.mine")+"] " + s;
-	}
-	public int getDepth() {
-		return depth;
-	}
+	@Override
 	public int getY() {
 		return y;
-	}
-	public int getY2() {
-		return y2;
 	}
 	@Override
 	public void setY(int y) {
@@ -180,5 +212,22 @@ public class Stock extends Building {
 	@Override
 	public void setInfoSign(Sign sign) {
 		infoSign = sign;
+	}
+	@Override
+	public Location getLocation() {
+		return new Location(world,x,y,z);
+	}
+	@Override
+	public Thread getThread() {
+		return work;
+	}
+	@Override
+	public boolean isWorkCeased() {
+		return isWorkCeased;
+	}
+
+	@Override
+	public void setIsWorkCeased(boolean bool) {
+		isWorkCeased = bool;
 	}
 }

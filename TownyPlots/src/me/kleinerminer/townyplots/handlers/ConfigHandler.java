@@ -42,9 +42,9 @@ public class ConfigHandler {
 		setConfigEntry("mine.useProbabilitySystem", true);
 		setConfigEntry("mine.gainableBlocks", "DIRT, GRAVEL, STONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE");
 
-		setConfigEntry("farm.basicProducingTime", 60);
-		setConfigEntry("farm.producingTimeLevelStep", 5.0);
-		setConfigEntry("farm.fieldExpansionBasic", 0);
+		setConfigEntry("farm.basicFarmInterval", 60);
+		setConfigEntry("farm.farmIntervalLevelStep", 5.0);
+		setConfigEntry("farm.fieldExpansionBasic", -1 );
 		setConfigEntry("farm.fieldExpansionPerLevel", 3);
 		setConfigEntry("farm.lowestY", 40);
 		setConfigEntry("farm.highestY", 100);
@@ -77,7 +77,7 @@ public class ConfigHandler {
 		setConfigEntry("lang.dependentTownLevel", "This building requires town level");
 		setConfigEntry("lang.levelInfoMine", "Current Depth");
 		setConfigEntry("lang.buildingReset", "You have successfully removed this");
-		setConfigEntry("lang.chestNotAppliable", "This kind of building does not support the chest type");
+		setConfigEntry("lang.chestNotAppliable", "This kind of building does not support this chest type");
 		setConfigEntry("lang.registerChest", "Right click a chest to register it.");
 		setConfigEntry("lang.specifyChestType", "Please specify a chest type");
 		setConfigEntry("lang.chestRegistered", "Chest registered!");
@@ -86,6 +86,8 @@ public class ConfigHandler {
 		setConfigEntry("lang.onlyOneStock", "Only one stock is allowed per town.");
 		setConfigEntry("lang.stockChestSet", "Stock chest successfully set for Material");
 		setConfigEntry("lang.stockChestRemoved", "Stock chest was removed successfully");
+		setConfigEntry("lang.workCeased", "Building work stopped.");
+		setConfigEntry("lang.workContinues", "This building will continue work now.");
 		 
 		setConfigEntry("lang.depth", "Depth");
 		setConfigEntry("lang.blocks", "Block");

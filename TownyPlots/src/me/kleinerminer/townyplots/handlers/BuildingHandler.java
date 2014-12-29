@@ -17,12 +17,7 @@ import me.kleinerminer.townyplots.building.Farm;
 import me.kleinerminer.townyplots.building.Lumberhut;
 import me.kleinerminer.townyplots.building.Mine;
 import me.kleinerminer.townyplots.building.SheepFarm;
-import me.kleinerminer.townyplots.building.Stock;
-import me.kleinerminer.townyplots.threads.FarmWork;
-import me.kleinerminer.townyplots.threads.LumberhutWork;
-import me.kleinerminer.townyplots.threads.MineWork;
-import me.kleinerminer.townyplots.threads.SheepFarmWork;
-import me.kleinerminer.townyplots.threads.StockWork;
+import me.kleinerminer.townyplots.threads.BuildingWork;
 
 public class BuildingHandler {
 	private TownyPlots plugin;
@@ -198,23 +193,12 @@ public class BuildingHandler {
 		return buildingRequirement.get(type);
 	}
 	public Thread startWork(Building b) {
-		Thread work = null;
-		if(b instanceof Lumberhut) {
-			work = new LumberhutWork(plugin, (Lumberhut) b);
-		} else if(b instanceof Mine) {
-			work = new MineWork(plugin, (Mine) b);
-		} else if(b instanceof SheepFarm) {
-			work = new SheepFarmWork(plugin, (SheepFarm) b);
-		} else if(b instanceof Stock) {
-			work = new StockWork(plugin, (Stock) b);
-		} else if(b instanceof Farm) {
-			work = new FarmWork(plugin, (Farm) b);
-		}
+		Thread work = new BuildingWork(plugin, b);
 		work.start();
 		return work;
 	}
 	//Returns the level of the road connecting two buildings. 1 = No road, 2 = Gravel road, 3 = Cobblestone road
-	public int roadConnectionLevel(Building b1, Building b2) {
+	public int getRoadConnectionLevel(Building b1, Building b2) {
 		//TODO: Add road system 
 		return 1;
 	}

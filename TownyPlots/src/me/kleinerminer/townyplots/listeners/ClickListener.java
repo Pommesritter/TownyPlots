@@ -3,6 +3,7 @@ package me.kleinerminer.townyplots.listeners;
 import me.kleinerminer.townyplots.TownyPlots;
 import me.kleinerminer.townyplots.building.Building;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,70 +20,57 @@ public class ClickListener implements Listener {
 		plugin = townyplots;
 	}
 	@EventHandler
-	public void onPlayerInteractEvent(PlayerInteractEvent event) {
-		if(!(event.getAction() == Action.RIGHT_CLICK_BLOCK)) return; //Only if a block was Right clicked
+	public void onPlayerInteractEvent(PlayerInteractEvent event) { 
+		//Only if a block was Right clicked
+		if(!(event.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
 		//If the player wants to register a chest, and is permitted to do so
-		if(!playerRegisteringChest(event.getPlayer()))
+		if(playerRegisteringChest(event.getPlayer()) == null)
 			return;
+		//Check if the block is in the players town (must be mayor of course)
 		if(plugin.buildinghandler.getBuilding(event.getClickedBlock().getLocation()) == null) {
 			event.getPlayer().sendMessage(plugin.lang("buildingNotFound"));
-			unregisterPlayer(event.getPlayer());
+			plugin.playersRegisteringChests.remove(event.getPlayer());
 			return;
 		}
-		//Check if the block is in the players town (must be mayor of course)
 		try {
 			if(!TownyUniverse.getTownBlock(event.getClickedBlock().getLocation()).getTown().getMayor().getName().equals(event.getPlayer().getName())) {
 				event.getPlayer().sendMessage(plugin.lang("errorNoMayor"));
-				unregisterPlayer(event.getPlayer());
+				plugin.playersRegisteringChests.remove(event.getPlayer());
 				return;
 			}
 		} catch (NotRegisteredException e) {
 			event.getPlayer().sendMessage(plugin.lang("errorNotInTown"));
-			unregisterPlayer(event.getPlayer());
+			plugin.playersRegisteringChests.remove(event.getPlayer());
 			return;
 		}
 		Building b = plugin.buildinghandler.getBuilding(event.getClickedBlock().getLocation());
 		if(b == null) {
-			event.getPlayer().sendMessage(plugin.lang("buildingNotFound")); 
 			return;
 		}
-		if(b.getType().equals("lumberhut")) {
-			int i = 0;
-			for(;i > 39; i++) {
-			}
-			if(event.getClickedBlock().getType().equals(Material.CHEST)) {
-				b.setOutputChests(i, event.getClickedBlock().getLocation());
-				event.getPlayer().sendMessage(plugin.lang("chestRegistered"));
-			} else {
-				event.getPlayer().sendMessage(plugin.lang("noChest"));
-			}
-		}	
-		if(b.getType().equals("mine")) {
-			int i = 0;
-			for(;i > 39; i++) {
-			}
-			if(event.getClickedBlock().getType().equals(Material.CHEST)) {
-				b.setOutputChests(i, event.getClickedBlock().getLocation());
-				event.getPlayer().sendMessage(plugin.lang("chestRegistered"));
-			} else {
-				event.getPlayer().sendMessage(plugin.lang("noChest"));
-			}
-		}	
-		unregisterPlayer(event.getPlayer());
-	}
-	public Boolean playerRegisteringChest(Player player) {
-		for(Player p : plugin.playersRegisteringChests) {
-			if(p == player)
-				return true;
+		if(!event.getClickedBlock().getType().equals(Material.CHEST)) {
+			event.getPlayer().sendMessage(plugin.lang("noChest"));
+			plugin.playersRegisteringChests.remove(event.getPlayer());
+		    return;
 		}
-		return false;
+		registerChest(b, event.getClickedBlock().getLocation(), event.getPlayer());
+		plugin.playersRegisteringChests.remove(event.getPlayer());
 	}
-	private void unregisterPlayer(Player player) {
-		int i2 = 0;
-		for(Player p : plugin.playersRegisteringChests) {
-			if(p == player) break;
-			i2++;
+	
+	
+	private void registerChest(Building b, Location loc, Player player) {
+		if(playerRegisteringChest(player).equals("input")) {
+			b.addChest("input", loc);
+		} else
+		if(playerRegisteringChest(player).equals("output")) {
+			b.addChest("output", loc);
+		} else
+		if(playerRegisteringChest(player).equals("level")) {
+			b.addChest("level", loc);
 		}
-		plugin.playersRegisteringChests[i2] = null;	
+		player.sendMessage(plugin.lang("chestRegistered"));
+		
+	}
+	private String playerRegisteringChest(Player player) {
+		return plugin.playersRegisteringChests.get(player);
 	}
 }

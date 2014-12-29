@@ -4,7 +4,7 @@ description: New dynamic plot types for Towny
 website: dev.bukkit.org
 author: Kleinerminer
 main: me.kleinerminer.townyplots.TownyPlots
-depend: [Towny]
+depend: [Towny, Vault]
 
 commands:
   plottype:

@@ -1,8 +1,8 @@
 package me.kleinerminer.townyplots.building;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.kleinerminer.townyplots.threads.LumberhutWork;
 import me.kleinerminer.townyplots.TownyPlots;
 
 import org.bukkit.Location;
@@ -15,19 +15,20 @@ import com.palmergames.bukkit.towny.object.Town;
 
 public class Lumberhut extends Building {
 	private int[] blockCountGiven = new int[10]; //Index = Index of the block's level
-	private Location[] outputChest = new Location[40]; //Location of chests to add items to
+	private ArrayList<Location> outputChests = new ArrayList<Location>(); //Location of chests to add items to
+	private ArrayList<Location> inputChests = null; //Location of chests to get items From, unused!
+	private ArrayList<Location> levelChests = null; //Location of chests to get the blocks for next level
+	private boolean isWorkCeased = false;
 	
 	int level = 0;
 	int y;
 	int y2;
-	int blockAmount; //Basic block count for level 1
-	int blockAmountLevel; //Block count per level up
 	Sign infoSign;
 	Town town;
+	Thread work;
 	String type = "lumberhut";
 	// World world;
 	private TownyPlots plugin;
-	private LumberhutWork work;
 	public Lumberhut(Location loc, Town town, int id, TownyPlots townyplots) {
 		super((int) loc.getX(), (int) loc.getZ(), loc.getWorld(), id);
 		this.plugin = townyplots;
@@ -48,10 +49,7 @@ public class Lumberhut extends Building {
 		setWorld(loc.getWorld());
 		setId(id);
 		setSize(size);
-		this.work = new LumberhutWork(plugin, this);
-		work.start();
-		blockAmount = plugin.config.getInt("lumberhut.levelBlockAmount");
-		blockAmountLevel = plugin.config.getInt("lumberhut.levelBlockAmountPerLevel");
+		work = plugin.buildinghandler.startWork(this);
 	}
 	
 
@@ -89,7 +87,6 @@ public class Lumberhut extends Building {
 		if(nextLevel <= getMaxLevel()) {
 			section = plugin.config.getConfigurationSection("lumberhut.levels." + nextLevel);
 		} else {
-			plugin.getLogger().info("returned null - level is "+level+", levelMax is "+getMaxLevel());
 			return null;
 		}
 		int i = 0;
@@ -118,7 +115,7 @@ public class Lumberhut extends Building {
 	@Override
 	public String getLevelInfo() {
 		if(level == getMaxLevel()) {
-			return (lang(plugin.config.getString("lang.maxLevel")));
+			return lang(plugin.config.getString("lang.maxLevel") +" (Level " + getLevel()+")");
 		}
 		String outputFormatted = ""; //String will format the level data to: "BlockType: Given/Required"
 		for(int i = 0; (i <= level + 1) && (requiredBlocks()[i] != null); i++) {
@@ -126,7 +123,7 @@ public class Lumberhut extends Building {
 					+ "/" + requiredBlockAmount().get(requiredBlocks()[i]);
 		}
 		int nextLevel = level + 1;
-		return (lang(plugin.config.getString("lang.levelInfo") + " " + nextLevel + ": " + outputFormatted));
+		return (lang(plugin.config.getString("lang.blocksNeeded") + " " + nextLevel + ": " + outputFormatted));
 	}
 	private int getMaxLevel() {
 		int i = 1;
@@ -209,16 +206,45 @@ public class Lumberhut extends Building {
 		this.ID = id;
 	}
 	@Override
-	public Location[] getOutputChests() {
-		return outputChest;
+	public ArrayList<Location> getChests(String type) {
+		if(type.equals("input")) {
+			return inputChests;
+		}
+		if(type.equals("output")) {
+			return outputChests;
+		}
+		if(type.equals("level")) {
+			return levelChests;
+		}
+		return null;
 	}
 	@Override
-	public void setOutputChests(int index, Location loc) {
-		this.outputChest[index] = loc;
+	public void addChest(String type, Location loc) {
+		if(type.equals("input")) {
+			this.inputChests.add(loc);
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests.add(loc);
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests.add(loc);
+		}
 	}
 	@Override
-	public void setOutputChests(Location[] outputChests) {
-		outputChest = outputChests;
+	public void setChests(String type, ArrayList<Location> chests) {
+		if(type.equals("input")) {
+			this.inputChests = chests;
+			return;
+		}
+		if(type.equals("output")) {
+			outputChests = chests;
+			return;
+		}
+		if(type.equals("level")) {
+			levelChests = chests;
+		}
 		
 	}
 	@Override
@@ -243,5 +269,22 @@ public class Lumberhut extends Building {
 	@Override
 	public void setInfoSign(Sign sign) {
 		infoSign = sign;
+	}
+	@Override
+	public Location getLocation() {
+		return new Location(world,x,y,z);
+	}
+	@Override
+	public Thread getThread() {
+		return work;
+	}
+	@Override
+	public boolean isWorkCeased() {
+		return isWorkCeased;
+	}
+
+	@Override
+	public void setIsWorkCeased(boolean bool) {
+		isWorkCeased = bool;
 	}
 }

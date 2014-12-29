@@ -1,6 +1,8 @@
 package me.kleinerminer.townyplots.building;
 
 
+import java.util.ArrayList;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
@@ -32,14 +34,17 @@ public abstract class Building {
 	public abstract int getZ();
 	public abstract int getX2();
 	public abstract int getZ2();
+	public abstract Location getLocation();
 	public abstract int getSize();
 	public abstract String getType();
 	public abstract Town getTown();
 	public abstract World getWorld();
 	public abstract int getId();
 	public abstract int getLevel();
+	public abstract Thread getThread();
 	public abstract Sign getInfoSign();
-	public abstract Location[] getOutputChests();
+	public abstract ArrayList<Location> getChests(String type);
+	public abstract boolean isWorkCeased();
 	
 	public abstract void setX(int x);
 	public abstract void setY(int y);
@@ -52,8 +57,9 @@ public abstract class Building {
 	public abstract void setWorld(World world);
 	public abstract void setId(int id);
 	public abstract void setInfoSign(Sign sign);
-	public abstract void setOutputChests(int index, Location loc);
-	public abstract void setOutputChests(Location[] outputChests);
+	public abstract void setChests(String type, ArrayList<Location> loc);
+	public abstract void addChest(String type, Location loc);
+	public abstract void setIsWorkCeased(boolean bool);
 	
 	public abstract String getLevelInfo();
 	
