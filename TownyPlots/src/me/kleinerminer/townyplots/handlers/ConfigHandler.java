@@ -94,6 +94,7 @@ public class ConfigHandler {
 		setConfigEntry("lang.workContinues", "This building will continue work now.");
 		setConfigEntry("lang.alreadyCeased", "This building is not working at the moment.");
 		setConfigEntry("lang.alreadyWorking", "This building is already working.");
+		setConfigEntry("lang.cantWorkFunds", "Your town has not enough money to maintain this building");
 		 
 		setConfigEntry("lang.depth", "Depth");
 		setConfigEntry("lang.blocks", "Block");
@@ -107,6 +108,7 @@ public class ConfigHandler {
 		setConfigEntry("lang.yes", "Yes");
 		setConfigEntry("lang.no", "No");
 		setConfigEntry("lang.working", "Working");
+		setConfigEntry("lang.costsPerHour", "Hourly upkeep");
 		
 		setConfigEntry("lang.lumberhut", "Lumberjacks hut");
 		setConfigEntry("lang.mine", "Mine");

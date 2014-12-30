@@ -24,28 +24,40 @@ public class BuildingWork extends Thread {
 	TownyPlots plugin;
 	Building b;
 	int productionCounter = 0;
+	double upkeepPerSecond;
+	double upkeepUnpaid = 0;
 	public BuildingWork(TownyPlots townyplots, Building b) {
 		plugin = townyplots;
 		this.b = b;
+		upkeepPerSecond = plugin.config.getDouble(b.getType()+".hourlyUpkeep") / 3600;
 	}
 	
 	public void run() {
 		while(true) {
-		if(!b.isWorkCeased())
-		if(b instanceof Farm) {
-			farmWork((Farm) b);
-		} else
-		if(b instanceof Lumberhut) {
-			lumberhutWork((Lumberhut) b);
-		} else 
-		if(b instanceof Mine) {
-			mineWork((Mine) b);
-		} else 
-		if(b instanceof SheepFarm) {
-			sheepFarmWork((SheepFarm) b);
-		} else
-		if(b instanceof Stock) {
-			stockWork((Stock) b);
+		if(!b.isWorkCeased()) {
+			upkeepUnpaid += upkeepPerSecond * (plugin.threadSleepTime / 1000);
+			double econ = plugin.economy.getBalance(b.getTown().getEconomyName());
+			if(econ < 1) {
+				b.setIsWorkCeased(true);
+			} else
+			if(b instanceof Farm) {
+				farmWork((Farm) b);
+			} else
+			if(b instanceof Lumberhut) {
+				lumberhutWork((Lumberhut) b);
+			} else 
+			if(b instanceof Mine) {
+				mineWork((Mine) b);
+			} else 
+			if(b instanceof SheepFarm) {
+				sheepFarmWork((SheepFarm) b);
+			} else
+			if(b instanceof Stock) {
+				stockWork((Stock) b);
+			} else {
+				if(upkeepUnpaid >= 0.5)
+				plugin.economy.withdrawPlayer(b.getTown().getEconomyName(), upkeepUnpaid);
+			}
 		}
 		try {
 			Thread.sleep(plugin.threadSleepTime);

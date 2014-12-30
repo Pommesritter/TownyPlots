@@ -81,6 +81,7 @@ public class CE_building implements CommandExecutor {
 		if(args[0].equalsIgnoreCase("info")){
 			sender.sendMessage(plugin.heading(plugin.config.getString("lang."+ building.getType())));
 			sender.sendMessage("ID: "+ building.getId());
+			sender.sendMessage(plugin.config.getString("lang.costsPerHour") +": "+ plugin.config.getDouble(building.getType()+".hourlyUpkeep"));
 			if(!building.getLevelInfo().equals(""))
 				sender.sendMessage(building.getLevelInfo());
 			if(building.isWorkCeased())
@@ -115,6 +116,11 @@ public class CE_building implements CommandExecutor {
 			if(args[1].equalsIgnoreCase("resume")) {
 				if(!building.isWorkCeased()) {
 					sender.sendMessage(plugin.lang("alreadyWorking"));
+					return true;
+				}
+				double econ = plugin.economy.getBalance(building.getTown().getEconomyName());
+				if(econ < 1) {
+					sender.sendMessage(plugin.lang("cantWorkFunds"));
 					return true;
 				}
 				sender.sendMessage(plugin.lang("workContinues"));
