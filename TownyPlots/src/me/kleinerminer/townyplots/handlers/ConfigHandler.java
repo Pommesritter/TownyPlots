@@ -109,6 +109,7 @@ public class ConfigHandler {
 		setConfigEntry("lang.no", "No");
 		setConfigEntry("lang.working", "Working");
 		setConfigEntry("lang.costsPerHour", "Hourly upkeep");
+		setConfigEntry("lang.notWorking", "Not working");
 		
 		setConfigEntry("lang.lumberhut", "Lumberjacks hut");
 		setConfigEntry("lang.mine", "Mine");

@@ -34,6 +34,7 @@ public class BuildingWork extends Thread {
 	
 	public void run() {
 		while(true) {
+		plugin.buildinghandler.refreshSign(b.getInfoSign(), b);
 		if(!b.isWorkCeased()) {
 			upkeepUnpaid += upkeepPerSecond * (plugin.threadSleepTime / 1000);
 			double econ = plugin.economy.getBalance(b.getTown().getEconomyName());
@@ -67,7 +68,6 @@ public class BuildingWork extends Thread {
 		farm.refreshLevel();
 		if(b.getLevel() <= 0)
 			b.setIsWorkCeased(true);
-		plugin.buildinghandler.refreshSign(farm.getInfoSign(), farm);
 		if(farm.getHoeHealth() == 0)
 		refreshHoeHealth: for(Location loc: farm.getChests("input")) {
 			if(loc.getWorld().getBlockAt(loc).getType().equals(Material.CHEST)) {
@@ -117,7 +117,6 @@ public class BuildingWork extends Thread {
 		lumberhut.refreshLevel();
 		if(b.getLevel() <= 0)
 			b.setIsWorkCeased(true);
-		plugin.buildinghandler.refreshSign(lumberhut.getInfoSign(), lumberhut);
 		//x Sec per wood on lv0 minus x sec per level
 		int time = (int) (plugin.config.getInt("lumberhut.basicProducingTime") - (lumberhut.getLevel() * 
 				plugin.config.getDouble("lumberhut.producingTimeLevelStep")));
@@ -142,7 +141,6 @@ public class BuildingWork extends Thread {
 		int depth = mine.getDepth();
 		int time = plugin.config.getInt("mine.basicProducingTime") + 
 				plugin.config.getInt("mine.producingTimePerBlockDepth")*mine.getDepth();
-		plugin.buildinghandler.refreshSign(mine.getInfoSign(), mine);
 		//x Sec per Material on lv0 plus x sec per block of depth
 		if(productionCounter >= time && !mine.isWorkCeased()) {
 		productionCounter = 0;
@@ -234,7 +232,6 @@ public class BuildingWork extends Thread {
 		sheepFarm.refreshLevel();
 		if(b.getLevel() <= 0)
 			b.setIsWorkCeased(true);
-		plugin.buildinghandler.refreshSign(sheepFarm.getInfoSign(), sheepFarm);
 		double radius = sheepFarm.getRadius();
 		int sheepCount = 0;
 		try {

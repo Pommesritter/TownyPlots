@@ -134,6 +134,7 @@ public class BuildingHandler {
 	}
 	public void refreshSign(Sign sign, Building b) {
 		if(sign == null) return; 
+		sign.setLine(3,"");
 		int blockCountSecond = 1;
 		if(b.getLevel() == 0) blockCountSecond = 0;
 		
@@ -141,7 +142,7 @@ public class BuildingHandler {
 			sign.setLine(0, plugin.config.getString("lang."+b.getType())); //Line 1 is the plot type
 			sign.setLine(1, "ID: " + b.getId()); //Line 2 is the id
 			sign.setLine(2, "Level: " + b.getLevel()); //Line 3 is the level
-			sign.setLine(3, blockCountSecond + plugin.config.getString("lang.blocks")+"/"+ (plugin.config.getInt(b.getType()+".basicProducingTime") - (b.getLevel() * 
+			sign.setLine(3, blockCountSecond+" " + plugin.config.getString("lang.blocks")+"/"+ (plugin.config.getInt(b.getType()+".basicProducingTime") - (b.getLevel() * 
 					plugin.config.getDouble(b.getType()+".producingTimeLevelStep"))) + "s"); //Line 4 is the BlockCount/Seconds
 		}
 		if(b instanceof Mine) {
@@ -172,6 +173,8 @@ public class BuildingHandler {
 			sign.setLine(2, "Level: " + b.getLevel()); //Line 3 is the level
 			sign.setLine(3, plugin.config.getString("lang.hoeHealth")+": "+ farm.getHoeHealth()); //Line 4 is Health of the used Hoe
 		}
+		if(b.isWorkCeased())
+			sign.setLine(3, plugin.config.getString("lang.notWorking"));
 		b.setInfoSign(sign);
 		b.getInfoSign().update();
 		
