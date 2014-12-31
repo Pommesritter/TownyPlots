@@ -291,4 +291,24 @@ public class BuildingWork extends Thread {
 
 
 	}
+	//Returns false if the material can not be taken from the town stock
+	boolean getFromStock(Material mat) {
+		Stock stock = null;
+		townHasStock: {
+			for(Building townB : plugin.buildinghandler.getTownBuildings(b.getTown())) {
+				if(b.getType().equals("stock")) {
+					stock = (Stock) townB;
+					break townHasStock;
+				}
+			}
+			return false;
+		}
+		if(!stock.materialChest.containsKey(mat.toString())) {
+			return false;
+		}
+		if(!stock.materialChest.get(mat.toString()).getInventory().contains(new ItemStack(mat))) {
+			return false;
+		}
+		return true;
+	}
 }
