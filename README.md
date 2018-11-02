@@ -11,3 +11,5 @@ Sadly, the Strings are all in german and must be translated ( lang file ).
 
 Please note that the [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
 ===========
+
+Also check out [The future of this plugin](https://github.com/Pommesritter/TownyPlots/wiki/The-future-of-this-plugin) on the GitHub Wiki.
