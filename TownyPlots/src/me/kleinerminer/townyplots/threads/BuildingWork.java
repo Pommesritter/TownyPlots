@@ -75,7 +75,7 @@ public class BuildingWork extends Thread {
 				if(c.getInventory().getContents() != null)
 				for(ItemStack stack : c.getInventory().getContents()) {
 					if(stack != null) {
-					if(stack.getType().equals(Material.WOOD_HOE)) {
+					if(stack.getType().equals(Material.WOODEN_HOE)) {
 						farm.setHoeHealth(20);
 						break refreshHoeHealth;
 					}
@@ -89,7 +89,7 @@ public class BuildingWork extends Thread {
 						c.getInventory().remove(stack);
 						break refreshHoeHealth;
 					}
-					if(stack.getType().equals(Material.GOLD_HOE)) {
+					if(stack.getType().equals(Material.GOLDEN_HOE)) {
 						farm.setHoeHealth(300);
 						c.getInventory().remove(stack);
 						break refreshHoeHealth;
@@ -127,7 +127,7 @@ public class BuildingWork extends Thread {
 			if(loc != null && loc.getBlock().getType().equals(Material.CHEST)) {
 				Chest c= (Chest)loc.getWorld().getBlockAt(loc).getState();
 				if(c.getBlockInventory().firstEmpty() != -1) { //If the chest is not full
-					c.getBlockInventory().addItem(new ItemStack(Material.LOG, 1));
+					c.getBlockInventory().addItem(new ItemStack(Material.OAK_LOG, 1));
 					break; //Only ONE chest should get Items ;)
 				}
 			}
@@ -252,7 +252,7 @@ public class BuildingWork extends Thread {
 				Chest c= (Chest)loc.getWorld().getBlockAt(loc).getState();
 				if(c.getBlockInventory().firstEmpty() != -1) { //If the chest is not full
 					if(sheepFarm.getBlockCountProduced() != 0)
-					c.getBlockInventory().addItem(new ItemStack(Material.WOOL, sheepFarm.getBlockCountProduced()));
+					c.getBlockInventory().addItem(new ItemStack(Material.WHITE_WOOL, sheepFarm.getBlockCountProduced()));
 					break; //Only ONE chest should get Items ;)
 				}
 			}

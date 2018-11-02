@@ -68,7 +68,7 @@ public class Farm extends Building {
 		int fieldExpansion = plugin.config.getInt("farm.fieldExpansionBasic")+level*plugin.config.getInt("farm.fieldExpansionPerLevel");
 		Location l1 = new Location(world, x - fieldExpansion ,y,z - fieldExpansion);
 		Location l2 = new Location(world, x2 + fieldExpansion, y2, z2 + fieldExpansion);
-		ArrayList<Block> crops = plugin.buildinghandler.getBlocks(l1, l2, Material.CROPS);
+		ArrayList<Block> crops = plugin.buildinghandler.getBlocks(l1, l2, Material.LEGACY_CROPS);
 		//Harvest the Ripe crops
 		for(Block b : crops) {
 			if(b.getData() == (CropState.RIPE.getData())) {
@@ -79,7 +79,7 @@ public class Farm extends Building {
 						//If the chest is not full
 						if(chest.getBlockInventory().firstEmpty() > -1) {
 							chest.getBlockInventory().addItem(new ItemStack(Material.WHEAT, 1));
-							chest.getBlockInventory().addItem(new ItemStack(Material.SEEDS, 1 + (int)(Math.random()*2)));
+							chest.getBlockInventory().addItem(new ItemStack(Material.WHEAT_SEEDS, 1 + (int)(Math.random()*2)));
 							break; 
 						}
 					}
@@ -95,23 +95,22 @@ public class Farm extends Building {
 			for(Block grassBlock : grass) {
 				if(hoeHealth == 0) break;
 				sleep(sleepTime);
-				grassBlock.setType(Material.SOIL);
+				grassBlock.setType(Material.LEGACY_SOIL);
 				hoeHealth --;
 			}
 			
 		}
-		ArrayList<Block> soil = plugin.buildinghandler.getSurfaceBlocks(l1, l2, Material.SOIL);
+		ArrayList<Block> soil = plugin.buildinghandler.getSurfaceBlocks(l1, l2, Material.LEGACY_SOIL);
 		//Plant new crops
 		for(Block b : soil) {
-			if(b.getRelative(BlockFace.UP).getType().equals(Material.AIR) && b.getType().equals(Material.SOIL)) {
+			if(b.getRelative(BlockFace.UP).getType().equals(Material.AIR) && b.getType().equals(Material.LEGACY_SOIL)) {
 				for(Location loc : inputChests) {
 					if(loc.getWorld().getBlockAt(loc).getType().equals(Material.CHEST)) {
 					Chest ic = (Chest) loc.getWorld().getBlockAt(loc).getState();
-					if(ic.getInventory().contains(Material.SEEDS)) {
-						ic.getInventory().removeItem(new ItemStack(Material.SEEDS, 1));
+					if(ic.getInventory().contains(Material.LEGACY_SEEDS)) {
+						ic.getInventory().removeItem(new ItemStack(Material.LEGACY_SEEDS, 1));
 						sleep(sleepTime);
-						b.getRelative(BlockFace.UP).setType(Material.CROPS);
-						b.getRelative(BlockFace.UP).setData(CropState.GERMINATED.getData());
+						b.getRelative(BlockFace.UP).setType(Material.LEGACY_CROPS);
 					}
 					}
 				}
