@@ -8,3 +8,6 @@ See the [Wiki](https://github.com/Pommesritter/TownyPlots/wiki) or config files 
 
 Consider to take a look at [MainPlugin](https://github.com/herbertsfundgrube/GSplugin), another project of mine. 
 Sadly, the Strings are all in german and must be translated ( lang file ). 
+
+Please note that the [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
+===========
