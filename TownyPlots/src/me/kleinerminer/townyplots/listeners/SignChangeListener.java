@@ -35,7 +35,7 @@ public class SignChangeListener implements Listener {
 		if(b instanceof Stock) {
 			Stock stock = (Stock) b;
 			if(event.getLine(1).equalsIgnoreCase("[Stock]")) {
-				if(event.getBlock().getType().equals(Material.SIGN_POST)) {
+				if(event.getBlock().getType().equals(Material.SIGN)) {
 					event.getPlayer().sendMessage(plugin.lang("signNotOnChest"));
 					return;
 				}

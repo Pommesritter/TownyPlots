@@ -57,7 +57,7 @@ public class Mine extends Building {
 		depth = 0;
 		Location l1 = new Location(world, x, y2, z);
 		Location l2 = new Location(world, x2, y2, z2);
-		while(plugin.buildinghandler.countBlocks(l1, l2, Material.RAILS) > 0) {
+		while(plugin.buildinghandler.countBlocks(l1, l2, Material.RAIL) > 0) {
 			y2--;
 			depth++;
 			l1 = new Location(world, x, y2, z);
