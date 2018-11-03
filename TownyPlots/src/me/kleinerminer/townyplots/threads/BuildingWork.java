@@ -26,8 +26,10 @@ public class BuildingWork extends Thread {
 	int productionCounter = 0;
 	double upkeepPerSecond;
 	double upkeepUnpaid = 0;
+	World world;
 	public BuildingWork(TownyPlots townyplots, Building b) {
 		plugin = townyplots;
+		world = b.getWorld();
 		this.b = b;
 		upkeepPerSecond = plugin.config.getDouble(b.getType()+".hourlyUpkeep") / 3600;
 	}
@@ -37,6 +39,8 @@ public class BuildingWork extends Thread {
 		plugin.buildinghandler.refreshSign(b.getInfoSign(), b);
 		if(!b.isWorkCeased()) {
 			upkeepUnpaid += upkeepPerSecond * (plugin.threadSleepTime / 1000);
+			// TODO: originally: double econ = plugin.economy.getBalance(b.getTown().getEconomyName());
+			plugin.debug("Economy name: " + b.getTown().getEconomyName());
 			double econ = plugin.economy.getBalance(b.getTown().getEconomyName());
 			if(econ < 1) {
 				b.setIsWorkCeased(true);
@@ -57,7 +61,9 @@ public class BuildingWork extends Thread {
 				stockWork((Stock) b);
 			} else {
 				if(upkeepUnpaid >= 0.5)
-				plugin.economy.withdrawPlayer(b.getTown().getEconomyName(), upkeepUnpaid);
+					
+					//TODO: debug
+					plugin.economy.bankWithdraw(b.getTown().getEconomyName(), upkeepUnpaid);
 			}
 		}
 		try {

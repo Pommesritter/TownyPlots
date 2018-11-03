@@ -14,7 +14,9 @@ import me.kleinerminer.townyplots.handlers.ConfigHandler;
 import me.kleinerminer.townyplots.handlers.FlatfileHandler;
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -25,6 +27,7 @@ import org.bukkit.util.ChatPaginator;
 
 import com.palmergames.bukkit.towny.TownySettings;
 import com.palmergames.bukkit.towny.db.TownyDataSource;
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 
@@ -44,6 +47,8 @@ public class TownyPlots extends JavaPlugin {
 	public HashMap<Player, String> playersRegisteringChests = new HashMap<Player, String>(); //Player, ChestType
 	public int plotSize;
 	public int threadSleepTime = 1000;
+	
+	public boolean debug = true;
 	
 	
 	@Override
@@ -132,5 +137,11 @@ public class TownyPlots extends JavaPlugin {
             title += "-";
         }
         return title;
+    }
+    
+    public void debug(String msg) {
+    	if(!debug)
+    		return;
+    	this.getLogger().warning("[DEBUG] " + msg);
     }
 }
