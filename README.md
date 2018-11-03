@@ -1,4 +1,4 @@
-### Please note that the [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
+### The [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
 
 # TownyPlots
 
