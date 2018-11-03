@@ -6,7 +6,7 @@ Note: The download file is **A debugging file**. Don't expect it to work. Also r
 
 
 
-[The GitHub Wiki](https://github.com/Pommesritter/TownyPlots/wiki/) will be maintained most likely. You should not find old information there.
+[The project wiki](https://github.com/Pommesritter/TownyPlots/wiki/) will be maintained most likely. You should not find old information there.
 
 ## Description
 
