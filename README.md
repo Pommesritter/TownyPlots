@@ -18,6 +18,8 @@ Sadly, the Strings are all in german and must be translated ( lang file ).
 
 Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/master) for more information on the project status. [The project wiki](https://github.com/Pommesritter/TownyPlots/wiki/) will be maintained aswell.
 
+If you encounter any errors, please report them in the [issues section](https://github.com/Pommesritter/TownyPlots/issues). Someone can take care of them later.
+
 ### **[Link to TownyPlots.jar](https://github.com/Pommesritter/TownyPlots/blob/master/TownyPlots.jar)**
 
 
