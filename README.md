@@ -4,10 +4,7 @@
 
 Note: **The download file is a debugging file**. Don't expect it to work. 
 
-Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/master) for more information on the project status..
-
-
-[The project wiki](https://github.com/Pommesritter/TownyPlots/wiki/) will be maintained most likely. You should not find old information there.
+Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/master) for more information on the project status. [The project wiki](https://github.com/Pommesritter/TownyPlots/wiki/) will be maintained aswell.
 
 ### **[Download](https://github.com/Pommesritter/TownyPlots/blob/master/TownyPlots.jar)**
 
