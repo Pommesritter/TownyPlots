@@ -1,5 +1,7 @@
 ### The [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
 
+### **[Download](https://github.com/Pommesritter/TownyPlots/blob/master/TownyPlots.jar)**
+
 # TownyPlots
 
 Note: **The download file is a debugging file**. Don't expect it to work. Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/master) for more status information.
