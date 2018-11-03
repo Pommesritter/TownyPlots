@@ -2,7 +2,7 @@
 
 # TownyPlots
 
-Note: The download file is **A debugging file**. Don't expect it to work. Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/master) for more status information.
+Note: **The download file is a debugging file**. Don't expect it to work. Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/master) for more status information.
 
 
 
