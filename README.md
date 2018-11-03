@@ -1,14 +1,6 @@
 ### The [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
 
 # TownyPlots
-
-Note: **The download file is a debugging file**. Don't expect it to work. 
-
-Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/master) for more information on the project status. [The project wiki](https://github.com/Pommesritter/TownyPlots/wiki/) will be maintained aswell.
-
-### **[Download](https://github.com/Pommesritter/TownyPlots/blob/master/TownyPlots.jar)**
-
-
 ## Description
 
 Adds new plot Types to towny.
@@ -19,4 +11,13 @@ See the [Wiki](https://github.com/Pommesritter/TownyPlots/wiki) or config files 
 Consider to take a look at [MainPlugin](https://github.com/herbertsfundgrube/GSplugin), another project of mine. 
 Sadly, the Strings are all in german and must be translated ( lang file ). 
 
-.
+
+## Download
+
+**The download file is a debugging file**. Don't expect it to work. 
+
+Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/master) for more information on the project status. [The project wiki](https://github.com/Pommesritter/TownyPlots/wiki/) will be maintained aswell.
+
+### **[Link to TownyPlots.jar](https://github.com/Pommesritter/TownyPlots/blob/master/TownyPlots.jar)**
+
+
