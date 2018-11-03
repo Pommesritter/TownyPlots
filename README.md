@@ -4,6 +4,7 @@ Note: The download file is **A debugging file**. Don't expect it to work. Also r
 
 Note 2: Please note that the [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
 
+Also check out [the wiki](https://github.com/Pommesritter/TownyPlots/wiki/).
 
 ## Description
 
@@ -15,5 +16,4 @@ See the [Wiki](https://github.com/Pommesritter/TownyPlots/wiki) or config files 
 Consider to take a look at [MainPlugin](https://github.com/herbertsfundgrube/GSplugin), another project of mine. 
 Sadly, the Strings are all in german and must be translated ( lang file ). 
 
-
-Also check out [The future of this plugin](https://github.com/Pommesritter/TownyPlots/wiki/The-future-of-this-plugin) on the GitHub Wiki.
+.
