@@ -1,4 +1,4 @@
-### The [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
+### Semi-supported project: The [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
 
 # TownyPlots
 ## Description
