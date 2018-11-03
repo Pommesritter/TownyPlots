@@ -1,8 +1,10 @@
+### Please note that the [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
+
 # TownyPlots
 
 Note: The download file is **A debugging file**. Don't expect it to work. Also read commit message for the TownyPlots.jar for more status information.
 
-### Please note that the [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
+
 
 Also check out [the wiki](https://github.com/Pommesritter/TownyPlots/wiki/).
 
