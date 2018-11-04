@@ -14,7 +14,7 @@ Sadly, the Strings are all in german and must be translated ( lang file ).
 
 ## Download
 
-**The download file is a debugging file**. Don't expect it to work. 
+The download file is a debugging file. **Don't expect it to work.**
 
 Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/master) for more information on the project status. [The project wiki](https://github.com/Pommesritter/TownyPlots/wiki/) will be maintained aswell.
 
