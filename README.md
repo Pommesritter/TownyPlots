@@ -1,6 +1,6 @@
 ### Semi-supported project
 
-### The [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore!
+### The [Bukkit page](https://dev.bukkit.org/projects/townyplots) won't be updated anymore! Scroll down for info.
 
 # TownyPlots
 ## Description
@@ -13,6 +13,8 @@ See the [Wiki](https://github.com/Pommesritter/TownyPlots/wiki) or config files 
 Consider to take a look at [MainPlugin](https://github.com/herbertsfundgrube/GSplugin), another project of mine. 
 Sadly, the Strings are all in german and must be translated ( lang file ). 
 
+## Requirements
+The plugin requires [Towny](http://palmergames.com/towny/Towny) and [Vault](https://dev.bukkit.org/projects/vault) to run.
 
 ## Download
 
