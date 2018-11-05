@@ -1,6 +1,6 @@
 ### Semi-supported project. Scroll down for info.
 # TownyPlots
-### [Wiki](https://github.com/Pommesritter/TownyPlots/wiki) | [Issues and Bugs](https://github.com/Pommesritter/TownyPlots/issues) |  [Development Status](https://github.com/Pommesritter/TownyPlots/projects) | [Downloads](https://github.com/Pommesritter/TownyPlots/tree/master/downloads) | [The Civitas Server project](https://gitlab.com/herbertsfundgrube/civitasserver)
+### Project Home | [Wiki](https://github.com/Pommesritter/TownyPlots/wiki) | [Issues and Bugs](https://github.com/Pommesritter/TownyPlots/issues) |  [Development Status](https://github.com/Pommesritter/TownyPlots/projects) | [Downloads](https://github.com/Pommesritter/TownyPlots/tree/master/downloads) | [CivitasServer](https://gitlab.com/herbertsfundgrube/civitasserver)
 ## Description
 
 >Adds new plot Types to towny.
