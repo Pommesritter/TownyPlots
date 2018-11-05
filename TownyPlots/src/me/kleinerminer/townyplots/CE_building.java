@@ -68,15 +68,44 @@ public class CE_building implements CommandExecutor {
 				sender.sendMessage("[input / output / level]");
 				return true;
 			}
+			if(args[1].equals("input") || args[1].equals("output") || args[1].equals("level")) {
+				sender.sendMessage(plugin.lang("specifyChestType")+":");
+				sender.sendMessage("[input / output / level]");
+				return true;
+			}
+			
 			//To undestand the following: A chest ArrayList is not initialized if the chestType is unused.
-			if(building.getChests(args[1]) != null) {
-				plugin.playersRegisteringChests.put(player, "input");
-				sender.sendMessage(plugin.lang("registerChest"));
-				return true;
-			} else {
-				sender.sendMessage(plugin.lang("chestNotAppliable")+ ".");
-				return true;
+			if(building.getChests(args[1]) == null) {
+					sender.sendMessage(plugin.lang("chestNotAppliable")+ ".");
+						return true;
+			}
+				
+			switch(args[1]) {
+				case "input" : {
+					plugin.playersRegisteringChests.put(player, "input");
+					sender.sendMessage(plugin.lang("registerChest"));
+					sender.sendMessage(plugin.lang("selectedChestType") + "input");
+					return true;
+					
 				}
+				case "output" : {
+					plugin.playersRegisteringChests.put(player, "output");
+					sender.sendMessage(plugin.lang("registerChest"));
+					sender.sendMessage(plugin.lang("selectedChestType") + "output");
+					return true;
+					
+				}
+				case "level" : {
+					plugin.playersRegisteringChests.put(player, "level");
+					sender.sendMessage(plugin.lang("registerChest"));
+					sender.sendMessage(plugin.lang("selectedChestType") + "level");
+					return true;
+					
+				}
+			}
+				
+			
+			
 		} else
 		if(args[0].equalsIgnoreCase("info")){
 			sender.sendMessage(plugin.heading(plugin.config.getString("lang."+ building.getType())));

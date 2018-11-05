@@ -62,6 +62,7 @@ public class ConfigHandler {
 		setConfigEntry("threadSleepTimeMilliseconds", 1000);
 		
 		//Lang
+		
 		setConfigEntry("lang.wrongSyntax", "Syntax:");
 		setConfigEntry("lang.blocksNeeded", "Blocks Needed for level");
 		setConfigEntry("lang.maxLevel", "This is the maximum level.");
@@ -84,6 +85,8 @@ public class ConfigHandler {
 		setConfigEntry("lang.chestNotAppliable", "This kind of building does not support this chest type");
 		setConfigEntry("lang.registerChest", "Right click a chest to register it.");
 		setConfigEntry("lang.specifyChestType", "Please specify a chest type");
+		setConfigEntry("lang.selectedChestType", "You are about to set the following chest type: ");
+		
 		setConfigEntry("lang.chestRegistered", "Chest registered!");
 		setConfigEntry("lang.invalidMaterial", "Please specify a valid Material");
 		setConfigEntry("lang.signNotOnChest", "You must attach the sign on a chest. Tip: Sneak");
