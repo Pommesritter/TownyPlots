@@ -147,6 +147,7 @@ public class CE_building implements CommandExecutor {
 					sender.sendMessage(plugin.lang("alreadyWorking"));
 					return true;
 				}
+				@SuppressWarnings("deprecation")
 				double econ = plugin.economy.getBalance(building.getTown().getEconomyName());
 				if(econ < 1) {
 					sender.sendMessage(plugin.lang("cantWorkFunds"));

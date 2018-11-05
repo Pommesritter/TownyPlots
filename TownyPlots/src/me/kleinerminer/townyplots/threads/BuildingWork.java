@@ -41,6 +41,7 @@ public class BuildingWork extends Thread {
 			upkeepUnpaid += upkeepPerSecond * (plugin.threadSleepTime / 1000);
 			// TODO: originally: double econ = plugin.economy.getBalance(b.getTown().getEconomyName());
 			plugin.debug("Economy name: " + b.getTown().getEconomyName());
+			@SuppressWarnings("deprecation")
 			double econ = plugin.economy.getBalance(b.getTown().getEconomyName());
 			if(econ < 1) {
 				b.setIsWorkCeased(true);
@@ -70,6 +71,8 @@ public class BuildingWork extends Thread {
 			Thread.sleep(plugin.threadSleepTime);
 		} catch (InterruptedException e) {}}
 	}
+	
+	@SuppressWarnings("deprecation")
 	private void farmWork(Farm farm) {
 		farm.refreshLevel();
 		if(b.getLevel() <= 0)
@@ -309,10 +312,10 @@ public class BuildingWork extends Thread {
 			}
 			return false;
 		}
-		if(!stock.materialChest.containsKey(mat.toString())) {
+		if(!stock.materialChest.containsKey(mat)) {
 			return false;
 		}
-		if(!stock.materialChest.get(mat.toString()).getInventory().contains(new ItemStack(mat))) {
+		if(!stock.materialChest.get(mat).getInventory().contains(new ItemStack(mat))) {
 			return false;
 		}
 		return true;
