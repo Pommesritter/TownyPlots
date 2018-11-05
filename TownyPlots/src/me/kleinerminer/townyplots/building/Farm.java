@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import me.kleinerminer.townyplots.TownyPlots;
 
-import org.bukkit.CropState;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -13,6 +12,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -66,28 +66,40 @@ public class Farm extends Building {
 	public void farm() {
 		int sleepTime = 50;
 		int fieldExpansion = plugin.config.getInt("farm.fieldExpansionBasic")+level*plugin.config.getInt("farm.fieldExpansionPerLevel");
+		//Corners of the wheat field
 		Location l1 = new Location(world, x - fieldExpansion ,y,z - fieldExpansion);
 		Location l2 = new Location(world, x2 + fieldExpansion, y2, z2 + fieldExpansion);
+		
+		
 		ArrayList<Block> crops = plugin.buildinghandler.getBlocks(l1, l2, Material.LEGACY_CROPS);
-		//Harvest the Ripe crops
+		
+		//Harvest the Very tall crops
 		for(Block b : crops) {
-			if(b.getData() == (CropState.RIPE.getData())) {
-				b.setType(Material.AIR);
-				for(Location loc : outputChests) {
-					if(loc != null && loc.getBlock().getType().equals(Material.CHEST)) {
-						Chest chest = (Chest)loc.getWorld().getBlockAt(loc).getState();
-						//If the chest is not full
-						if(chest.getBlockInventory().firstEmpty() > -1) {
-							chest.getBlockInventory().addItem(new ItemStack(Material.WHEAT, 1));
-							chest.getBlockInventory().addItem(new ItemStack(Material.WHEAT_SEEDS, 1 + (int)(Math.random()*2)));
-							break; 
-						}
-					}
+			if(b.getType() == Material.WHEAT) {
+				Ageable a = (Ageable) b.getState().getData();
+				if(a.getAge() == a.getMaximumAge()) {
+					b.setType(Material.AIR);
 					
+					//Put wheat into an available output chest
+					for(Location loc : outputChests) {
+						if(loc != null && loc.getBlock().getType().equals(Material.CHEST)) {
+							Chest chest = (Chest)loc.getWorld().getBlockAt(loc).getState();
+							//If the chest is not full
+							if(chest.getBlockInventory().firstEmpty() > -1) {
+								chest.getBlockInventory().addItem(new ItemStack(Material.WHEAT, 1 + (int)(Math.random()*2)));
+								chest.getBlockInventory().addItem(new ItemStack(Material.WHEAT_SEEDS, 1 + (int)(Math.random()*2)));
+								break; 
+							}
+						}
+						
+					}
 				}
 			}
 			
+			
 		}
+		
+		
 		//Make soil ready with hoe
 		if(hoeHealth > 0) {
 			ArrayList<Block> grass = plugin.buildinghandler.getSurfaceBlocks(l1, l2, Material.GRASS);
@@ -95,12 +107,12 @@ public class Farm extends Building {
 			for(Block grassBlock : grass) {
 				if(hoeHealth == 0) break;
 				sleep(sleepTime);
-				grassBlock.setType(Material.LEGACY_SOIL);
+				grassBlock.setType(Material.FARMLAND);
 				hoeHealth --;
 			}
 			
 		}
-		ArrayList<Block> soil = plugin.buildinghandler.getSurfaceBlocks(l1, l2, Material.LEGACY_SOIL);
+		ArrayList<Block> soil = plugin.buildinghandler.getSurfaceBlocks(l1, l2, Material.FARMLAND);
 		//Plant new crops
 		for(Block b : soil) {
 			if(b.getRelative(BlockFace.UP).getType().equals(Material.AIR) && b.getType().equals(Material.LEGACY_SOIL)) {
