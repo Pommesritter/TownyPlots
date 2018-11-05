@@ -1,5 +1,5 @@
 
-### [Project Home](https://github.com/Pommesritter/TownyPlots/blob/master/README.md#townyplots) | [Wiki](https://github.com/Pommesritter/TownyPlots/wiki) | [Issues and Bugs](https://github.com/Pommesritter/TownyPlots/issues) |  [Development Status](https://github.com/Pommesritter/TownyPlots/projects) | Downloads
+### [Project Home](https://github.com/Pommesritter/TownyPlots/blob/master/README.md#townyplots) | [Wiki](https://github.com/Pommesritter/TownyPlots/wiki/Wiki-Home) | [Issues and Bugs](https://github.com/Pommesritter/TownyPlots/issues) |  [Development Status](https://github.com/Pommesritter/TownyPlots/projects) | Downloads
 
 ***
 
