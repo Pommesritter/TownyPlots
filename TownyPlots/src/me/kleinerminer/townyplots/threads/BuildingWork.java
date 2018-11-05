@@ -86,22 +86,22 @@ public class BuildingWork extends Thread {
 						break refreshHoeHealth;
 					}
 					if(stack.getType().equals(Material.STONE_HOE)) {
-						farm.setHoeHealth(90);
+						farm.setHoeHealth(stack.getDurability());
 						c.getInventory().remove(stack);
 						break refreshHoeHealth;
 					}
 					if(stack.getType().equals(Material.IRON_HOE)) {
-						farm.setHoeHealth(150);
+						farm.setHoeHealth(stack.getDurability());
 						c.getInventory().remove(stack);
 						break refreshHoeHealth;
 					}
 					if(stack.getType().equals(Material.GOLDEN_HOE)) {
-						farm.setHoeHealth(300);
+						farm.setHoeHealth(stack.getDurability());
 						c.getInventory().remove(stack);
 						break refreshHoeHealth;
 					}
 					if(stack.getType().equals(Material.DIAMOND_HOE)) {
-						farm.setHoeHealth(1000);
+						farm.setHoeHealth(stack.getDurability());
 						c.getInventory().remove(stack);
 						break refreshHoeHealth;
 					}

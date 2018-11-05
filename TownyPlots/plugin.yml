@@ -1,5 +1,6 @@
 name: "TownyPlots"
 version: 0.3
+api-version: 1.13
 description: New dynamic plot types for Towny
 website: dev.bukkit.org
 author: Kleinerminer
