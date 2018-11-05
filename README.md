@@ -22,6 +22,6 @@ Also read [commit messages](https://github.com/Pommesritter/TownyPlots/commits/m
 
 If you encounter any errors, please report them in the [issues section](https://github.com/Pommesritter/TownyPlots/issues). Someone can take care of them later.
 
-### **[Link to TownyPlots.jar](https://github.com/Pommesritter/TownyPlots/blob/master/downloads/TownyPlots.jar)**
+### **[Link to TownyPlots.jar](https://github.com/Pommesritter/TownyPlots/blob/master/downloads/TownyPlots%200.2%20b5.jar)**
 
 
