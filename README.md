@@ -1,14 +1,12 @@
 ### Semi-supported project. Scroll down for info.
 # TownyPlots
-### Project Home | [Wiki](https://github.com/Pommesritter/TownyPlots/wiki/Wiki-Home) | [Issues and Bugs](https://github.com/Pommesritter/TownyPlots/issues) |  [Development Status](https://github.com/Pommesritter/TownyPlots/projects) | [Downloads](https://github.com/Pommesritter/TownyPlots/tree/master/downloads) | [CivitasServer](https://gitlab.com/herbertsfundgrube/civitasserver)
+### Project Home | [Wiki](https://github.com/Pommesritter/TownyPlots/wiki/Wiki-Home) | [Issues and Bugs](https://github.com/Pommesritter/TownyPlots/issues) |  [Development Status](https://github.com/Pommesritter/TownyPlots/projects) | [Downloads](https://github.com/Pommesritter/TownyPlots/tree/master/downloads) | [Project Civitas](https://github.com/Pommesritter/ProjectCivitas)
 ## Description
 
 >Adds new plot Types to towny.
 TownyPlots will allow town mayors to set advanced plot types like mines, stocks etc. 
 These buildings will fill chests inside of them, speed depending on their level. You can level them up by adding specific blocks or extending them in another way, dependent on the building. 
 See the [Wiki](https://github.com/Pommesritter/TownyPlots/wiki) or config files for more information.
-
-Consider to take a look at [Project Civitas](https://gitlab.com/herbertsfundgrube/civitasserver), another project of mine :)
 
 It will be moved to GitHub at a releaseable stage.
 
