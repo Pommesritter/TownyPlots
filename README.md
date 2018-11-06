@@ -1,4 +1,4 @@
-### Semi-supported project. Scroll down for info.
+### Semi-supported project. If you wish to participate, please contact me!
 # TownyPlots
 ### Project Home | [Wiki](https://github.com/Pommesritter/TownyPlots/wiki/Wiki-Home) | [Issues and Bugs](https://github.com/Pommesritter/TownyPlots/issues) |  [Development Status](https://github.com/Pommesritter/TownyPlots/projects) | [Downloads](https://github.com/Pommesritter/TownyPlots/tree/master/downloads) | [Project Civitas](https://github.com/Pommesritter/ProjectCivitas)
 ## Description
