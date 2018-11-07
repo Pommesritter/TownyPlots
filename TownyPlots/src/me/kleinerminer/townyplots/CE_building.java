@@ -68,7 +68,7 @@ public class CE_building implements CommandExecutor {
 				sender.sendMessage("[input / output / level]");
 				return true;
 			}
-			if(args[1].equals("input") || args[1].equals("output") || args[1].equals("level")) {
+			if(!(args[1].equals("input") || args[1].equals("output") || args[1].equals("level"))) {
 				sender.sendMessage(plugin.lang("specifyChestType")+":");
 				sender.sendMessage("[input / output / level]");
 				return true;
