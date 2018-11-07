@@ -39,8 +39,6 @@ public class BuildingWork extends Thread {
 		plugin.buildinghandler.refreshSign(b.getInfoSign(), b);
 		if(!b.isWorkCeased()) {
 			upkeepUnpaid += upkeepPerSecond * (plugin.threadSleepTime / 1000);
-			// TODO: originally: double econ = plugin.economy.getBalance(b.getTown().getEconomyName());
-			plugin.debug("Economy name: " + b.getTown().getEconomyName());
 			@SuppressWarnings("deprecation")
 			double econ = plugin.economy.getBalance(b.getTown().getEconomyName());
 			if(econ < 1) {

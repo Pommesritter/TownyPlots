@@ -15,6 +15,7 @@ import com.palmergames.bukkit.towny.object.TownBlock;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class CE_building implements CommandExecutor {
+	private final String arguments = "[info  / addchest / work]";
 	private TownyPlots plugin;
 	public CE_building(TownyPlots townyplots) {
 		this.plugin = townyplots;
@@ -24,7 +25,7 @@ public class CE_building implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length < 1) { 
 			//Argument count must be 1
-			sender.sendMessage(plugin.lang("wrongSyntax") + " /b [info/addchest]");
+			sender.sendMessage(plugin.lang("wrongSyntax") + " /b " + arguments);
 			return true;
 		}
 		if(!(sender instanceof Player)) {
@@ -35,10 +36,6 @@ public class CE_building implements CommandExecutor {
 		Player player = (Player) sender;
 		TownBlock plot = getPlot(player);
 		Building building = plugin.buildinghandler.getBuilding(player.getLocation());
-		if(building == null){
-			sender.sendMessage(plugin.lang("buildingNotFound"));
-			return true;
-		}
 		try {
 			if(!TownyUniverse.getPlayer(plot.getTown().getMayor()).equals(player)) {
 				//If player is not the mayor of the town of the plot he is standing in
@@ -63,6 +60,10 @@ public class CE_building implements CommandExecutor {
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("addchest")){
+			if(building == null){
+				sender.sendMessage(plugin.lang("buildingNotFound"));
+				return true;
+			}
 			if(args.length < 2) { //When args are wrong
 				sender.sendMessage(plugin.lang("specifyChestType")+":");
 				sender.sendMessage("[input / output / level]");
@@ -108,6 +109,10 @@ public class CE_building implements CommandExecutor {
 			
 		} else
 		if(args[0].equalsIgnoreCase("info")){
+			if(building == null){
+				sender.sendMessage(plugin.lang("buildingNotFound"));
+				return true;
+			}
 			sender.sendMessage(plugin.heading(plugin.config.getString("lang."+ building.getType())));
 			sender.sendMessage("ID: "+ building.getId());
 			sender.sendMessage(plugin.config.getString("lang.costsPerHour") +": "+ plugin.config.getDouble(building.getType()+".hourlyUpkeep"));
@@ -129,6 +134,10 @@ public class CE_building implements CommandExecutor {
 		return true;
 		} else
 		if(args[0].equalsIgnoreCase("work")) {
+			if(building == null){
+				sender.sendMessage(plugin.lang("buildingNotFound"));
+				return true;
+			}
 			if(args.length <= 1) {
 				sender.sendMessage(plugin.lang("wrongSyntax") + " /b work [cease/resume]");
 				return true;
@@ -162,7 +171,7 @@ public class CE_building implements CommandExecutor {
 			}
 		}
 		
-		sender.sendMessage(plugin.lang("wrongSyntax") + " /b [info/addchest/work]");
+		sender.sendMessage(plugin.lang("wrongSyntax") + " /b " + arguments);
 		return true;
 	}
 	private TownBlock getPlot(Player player) {
